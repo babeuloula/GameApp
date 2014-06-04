@@ -1,0 +1,57 @@
+{
+    "application": {
+        "single_instance_guid": "",
+        "dpi_aware": true
+    },
+    "debugging": {
+        "show_console": false,
+        "subprocess_show_console": false,
+        "log_level": "DEBUG4",
+        "log_file": "console.log"
+    },
+    "main_window": {
+        "title": "Paramètre de GameApp",
+        "icon": "app/img/params.ico",
+        "default_size": [1024, 768],
+        "minimum_size": [1024, 768],
+        "maximum_size": [1024, 768],
+        "disable_maximize_button": true,
+        "center_on_screen": true,
+        "start_maximized": false,
+        "start_fullscreen": false
+    },
+    "popup_window": {
+        "icon": "",
+        "fixed_title": "",
+        "center_relative_to_parent": true,
+        "default_size": [1024, 768]
+    },
+    "web_server": {
+        "listen_on": ["127.0.0.1", 0],
+        "www_directory": "app",
+        "index_files": ["params.php"],
+        "cgi_interpreter": "php/php-cgi.exe",
+        "cgi_extensions": ["php"],
+        "cgi_temp_dir": "tmp"
+    },
+    "chrome": {
+        "log_file": "console.log",
+        "log_severity": "default",
+        "cache_path": "cache",
+        "external_drag": false,
+        "external_navigation": false,
+        "reload_page_F5": false,
+        "devtools_F12": false,
+        "remote_debugging_port": 0,
+        "command_line_switches": {},
+        "enable_downloads": false,
+        "context_menu": {
+            "enable_menu": false,
+            "navigation": true,
+            "print": true,
+            "view_source": true,
+            "open_in_external_browser": true,
+            "devtools": true
+        }
+    }
+}

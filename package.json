@@ -1,0 +1,17 @@
+{
+  "author": "BaBeuloula <contact@babeuloula.fr> (http://www.babeuloula.fr/)",
+  "description": "Lancer vos jeux favoris via votre gamepad grâce à une interface simplifiée",
+  "name": "GameApp",
+  "version": "0.2",
+  "main": "app/index.html",
+  "window": {
+    "toolbar": false,
+    "width": 1920,
+    "height": 1080,
+    "frame": false,
+    "kiosk": true,
+    "always-on-top": false,
+    "title": "GameApp",
+    "icon": "app/img/gameapp.png"
+  }
+}

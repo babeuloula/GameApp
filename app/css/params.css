@@ -1,0 +1,176 @@
+* {
+    outline: none;
+}
+
+html {
+    width: 100%;
+    font-size   : 62.5%;
+    background: #FFF;
+    margin: 0 auto;
+}
+
+body {
+    font-family: Arial;
+    color: #000;
+}
+
+#container, #errors {
+    margin: 25px;
+}
+
+.cache {
+    display: none;
+}
+
+.clear {
+    clear: both;
+    float: none;
+}
+
+h1 {
+    font-size: 40px;
+    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
+    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
+    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
+    margin-bottom: 30px;
+    text-align: center;
+    margin-top: 15px;
+    color: #FFF;
+    font-family: "Neuropol";
+}
+
+fieldset {
+    border: solid 1px #1f5e8a;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius   : 10px 10px 10px 10px;
+    -ms-border-radius    : 10px 10px 10px 10px;
+    -o-border-radius     : 10px 10px 10px 10px;
+    border-radius        : 10px 10px 10px 10px;
+    padding: 10px;
+    margin-top: 15px;
+}
+
+fieldset legend {
+    font-size: 40px;
+    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
+    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
+    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
+    margin-bottom: 15px;
+    margin-top: 15px;
+    margin-left: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #FFF;
+    font-family: "Neuropol";
+}
+
+.del, .edit, .delImage {
+    cursor: pointer;
+}
+
+.ui-dialog-titlebar-close {
+    visibility : hidden;
+}
+
+.del {
+    margin-left: 5px;
+}
+
+.game {
+    height: 25px;
+    line-height: 25px;
+    border: solid 1px #1f5e8a;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius   : 10px 10px 10px 10px;
+    -ms-border-radius    : 10px 10px 10px 10px;
+    -o-border-radius     : 10px 10px 10px 10px;
+    border-radius        : 10px 10px 10px 10px;
+    padding: 10px;
+    margin-top: 5px;
+    cursor: move;
+    background: #FFF;
+}
+
+.game .actions {
+    float: right;
+}
+
+table {
+    margin-top: 15px;
+}
+
+table th {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    border: solid 1px #1f5e8a;
+}
+
+td {
+    border: solid 1px #1f5e8a;
+    height: 30px;
+}
+
+table td:nth-child(1) {
+    padding-left: 10px;
+}
+
+table td:nth-child(2), table td:nth-child(3) {
+    text-align: center;
+}
+
+input[type='text'], input[type='file'], input[type='password'], select {
+    background-color : #F2F2F2;
+    border           : 1px solid #999;
+    min-height       : 20px;
+    padding-left     : 5px;
+}
+
+input[type='text'].invalid, input[type='file'].invalid, input[type='password'].invalid {
+    border : 1px solid #F00;
+}
+
+.mt10 {
+    margin-top : 10px;
+}
+
+.mt5 {
+    margin-top : 5px;
+}
+
+label span, label input[type='text'], label input[type='file'], label input[type='password'] {
+    color : #000;
+}
+
+label {
+    color       : #0361AE;
+    line-height : 20px;
+    display     : block;
+}
+
+.w250 {
+    width : 250px;
+}
+
+.w520 {
+    width: 520px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+textarea {
+    width: 540px;
+    max-width: 540px;
+    min-width: 540px;
+    height: 90px;
+    min-height: 90px;
+    background-color : #F2F2F2;
+    border           : 1px solid #999;
+    padding: 5px;
+}
