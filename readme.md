@@ -4,6 +4,12 @@ GameApp v0.2
 Lancer vos jeux favoris via votre gamepad grâce à une interface simplifiée
 
 
+Téléchargements
+===============
+
+Si vous souhaitez avoir une verison un peu plus "pro", je vous invite à télécharger le setup à cette adresse : <a href="http://www.babeuloula.fr/fichiers/projets/gameapp-0_2-setup.exe">http://www.babeuloula.fr/fichiers/projets/gameapp-0_2-setup.exe</a>
+
+
 Comment ça fonctionne ?
 =======================
 
@@ -38,6 +44,7 @@ Compatibilité
 
 * Pour l'heure, je n'ai pu le tester que sous Windows 7. Normalement comme le système est le même, cela devrait fonctionner correctement sous Windows XP, Vista, 8 et 8.1.
 * Il faut néanmoins, un écran de 1920x1080 (FullHD), pour le moment GameApp n'est pas responsive
+* PHPDesktop ne gère pas les accents, donc si vous avez une erreur lors du lancement des Paramètres, c'est sans doute cela
 
 
 Choses prévues dans les versions futurs
