@@ -12,13 +12,43 @@ jQuery(function($){
             success: function(response) {
                 var games = $.parseHTML(response);
 
-                $("#favoris").html($(games[0]).html());
-                $("#autres").html($(games[1]).html());
+                // Evite un bug au lancement si les favoris sont vides
+                if($.trim($(games[0]).html()) == "") {
+                    child = execFile("params.exe", function(error,stdout,stderr) {
+                        if (error) {
+                            console.log(error.stack);
+                            console.log('Error code: '+ error.code);
+                            console.log('Signal received: '+
+                                error.signal);
+                        }
+                        console.log('Child Process stdout: '+ stdout);
+                        console.log('Child Process stderr: '+ stderr);
+                    });
 
-                $("#loadingApp").fadeOut(150, function() {
-                    $("#container").fadeIn(150);
-                    $('html').css('background', 'url("games/backgrounds/'+$(".game.active .image").attr('id_game')+'/'+$(".game.active .image").attr('background')+'") #000 center center no-repeat fixed');
-                });
+                    child.on('exit', function (code) {
+                        console.log('Child process exited with exit code '+ code);
+
+                        $.ajax({
+                            url: "games.data",
+                            success: function(response) {
+                                var games = $.parseHTML(response);
+
+                                $("#favoris").html($(games[0]).html());
+                                $("#autres").html($(games[1]).html());
+
+                                $('html').css('background', 'url("games/backgrounds/'+$(".game.active .image").attr('id_game')+'/'+$(".game.active .image").attr('background')+'") #000 center center no-repeat fixed');
+                            }
+                        });
+                    });
+                } else {
+                    $("#favoris").html($(games[0]).html());
+                    $("#autres").html($(games[1]).html());
+
+                    $("#loadingApp").fadeOut(150, function() {
+                        $("#container").fadeIn(150);
+                        $('html').css('background', 'url("games/backgrounds/'+$(".game.active .image").attr('id_game')+'/'+$(".game.active .image").attr('background')+'") #000 center center no-repeat fixed');
+                    });
+                }
             }
         });
     });
@@ -187,11 +217,11 @@ jQuery(function($){
                                         }
                                         console.log('Child Process stdout: '+ stdout);
                                         console.log('Child Process stderr: '+ stderr);
-
-                                        setTimeout(function() {
-                                            $("#containerLoading").fadeOut(150);
-                                        }, 15000);
                                     });
+
+                                    setTimeout(function() {
+                                        $("#containerLoading").fadeOut(150);
+                                    }, 15000);
 
                                     child.on('exit', function (code) {
                                         console.log('Child process exited with exit code '+ code);
