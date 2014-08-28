@@ -1,5 +1,7 @@
 .idea/
 
+cache/
+games/
 node_modules/
 
 console.log

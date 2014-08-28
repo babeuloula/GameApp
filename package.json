@@ -1,0 +1,42 @@
+{
+  "name": "GameApp",
+  "version": "0.4.0",
+  "description": "Lancez vos jeux favoris via votre gamepad grâce à une interface simplifiée",
+  "main": "app/index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/babeuloula/GameApp.git"
+  },
+  "window": {
+    "toolbar": true,
+    "width": 1280,
+    "height": 720,
+    "min_width": 1280,
+    "min_height": 720,
+    "frame": true,
+    "title": "GameApp",
+    "icon": "app/icons/gameapp_48.png"
+  },
+  "keywords": [
+    "game",
+    "games",
+    "app",
+    "gamepad",
+    "xbox"
+  ],
+  "author": "BaBeuloula",
+  "bugs": {
+    "url": "https://github.com/babeuloula/GameApp/issues"
+  },
+  "homepage": "https://github.com/babeuloula/GameApp",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-node-webkit-builder": "^0.2.2"
+  },
+  "dependencies": {
+    "node-webkit-window-manager": "0.0.3",
+    "read-file": "^0.1.2",
+    "request": "^2.40.0"
+  }
+}
