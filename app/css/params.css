@@ -1,5 +1,9 @@
 * {
     outline : none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
 }
 
 html, body {
@@ -38,4 +42,31 @@ input[type=text] {
 
 #game_title {
     width : 480px;
+}
+
+#game_list {
+    width: 100%;
+    border: none;
+}
+
+#game_list tr:nth-child(2n+1) {
+    background: #DDD;
+}
+
+#game_list .title {
+    width: 490px;
+    padding-left: 10px;
+}
+
+#game_list .actions {
+    width: 80px;
+    text-align: center;
+}
+
+#game_list .actions .edit, #game_list .actions .del {
+    cursor: pointer;
+}
+
+#game_list .actions .edit {
+    margin-right: 15px;
 }

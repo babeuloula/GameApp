@@ -66,8 +66,11 @@ function reload() {
 }
 
 function coverFlow() {
+    var playlist = $.parseJSON(file.readFileSync('games/gameapp.json'));
+    playlist.sort(sortByTitle);
+
     $('#containerList').coverflow({
-        playlist: $.parseJSON(file.readFileSync('games/gameapp.json')),
+        playlist: playlist,
         width: $(window).width(),
         height: $("#gameList").height(),
         backgroundopacity: 0,
@@ -78,12 +81,13 @@ function coverFlow() {
 
 function getInfos(id, callback) {
     var game = $.parseJSON(file.readFileSync('games/gameapp.json'));
+    game.sort(sortByTitle);
 
     getColor(game[id].background, function(color) {
         $('#gameInfo #containerInfo h2').css('color', color);
 
         $("#background").css('background-image', 'url("'+game[id].background+'")');
-        $('#gameInfo #containerInfo .image').attr('src', game[id].background).width('40%');
+        $('#gameInfo #containerInfo .image').attr('src', game[id].screenshot).width('40%');
         $('#gameInfo #containerInfo .infos h1').html(game[id].titre);
         $('#gameInfo #containerInfo .infos .editeur').html(game[id].editeur);
         $('#gameInfo #containerInfo .infos .developpeur').html(game[id].developpeur);
@@ -94,6 +98,10 @@ function getInfos(id, callback) {
 
         callback(true);
     });
+}
+
+function sortByTitle(key1, key2) {
+    return key1.titre > key2.titre;
 }
 
 function getColor(src, callback) {
@@ -146,10 +154,6 @@ function nodejs() {
 
     if(!fs.existsSync('games/images/')) {
         fs.mkdirSync('games/images/');
-    }
-
-    if(!fs.existsSync('games/thumbs/')) {
-        fs.mkdirSync('games/thumbs/');
     }
 
     if(!fs.existsSync('games/gameapp.json')) {
@@ -216,10 +220,11 @@ function actions_keyboard(keyCode) {
 
         // Entrée
         case 13:
-            alert("Lancement du jeu " + current);
+            var game = $.parseJSON(file.readFileSync('games/gameapp.json'));
 
-            /*var game = $.parseJSON(file.readFileSync('games/gameapp.json'));
-            child = execFile(game[id].path, function(error, stdout, stderr) {
+            alert("Lancement du jeu " + game[current].titre);
+
+            /*child = execFile(game[current].path, function(error, stdout, stderr) {
                 if (error) {
                     console.log(error.stack);
                     console.log('Error code: '+ error.code);

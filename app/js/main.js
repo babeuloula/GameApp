@@ -39,7 +39,7 @@ jQuery(function($){
         var params = global.windowManager.open('params');
 
         params.on('close', function() {
-            reload();
+            window.location.reload();
         });
     });
 
