@@ -1,0 +1,41 @@
+* {
+    outline : none;
+}
+
+html, body {
+    margin      : 0;
+    padding     : 0;
+    background  : #FFF;
+    font-family : 'Geo Sans Light';
+    background  : url("../icons/gameapp_128_fade.png") center center no-repeat fixed;
+}
+
+#addGame {
+    border        : solid 3px #CCC;
+    width         : 25px;
+    height        : 25px;
+    cursor        : pointer;
+    border-radius : 5px 5px 5px 5px;
+    color         : #FFF;
+}
+
+fieldset {
+    border        : solid 3px #CCC;
+    margin        : 10px;
+    border-radius : 5px 5px 5px 5px;
+}
+
+legend {
+    padding-left  : 10px;
+    padding-right : 10px;
+}
+
+input[type=text] {
+    padding       : 2px;
+    border-radius : 2px 2px 2px 2px;
+    border        : solid 1px #CCC;
+}
+
+#game_title {
+    width : 480px;
+}

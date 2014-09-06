@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     // Tasks
     grunt.initConfig({
         jshint: {
-            all: ['app/js/node.js', 'app/js/first.js', 'app/js/functions.js', 'app/js/main.js']
+            all: ['app/js/node.js', 'app/js/functions.js', 'app/js/main.js', 'app/js/params.js']
         },
 
         nodewebkit: {
@@ -16,7 +16,8 @@ module.exports = function(grunt) {
                 './package.json',
                 './app/**',
                 './node_modules/node-webkit-window-manager/**',
-                './node_modules/sqlite3/**'
+                './node_modules/read-file/**',
+                './node_modules/request/**'
             ]
         }
     });
@@ -29,6 +30,7 @@ module.exports = function(grunt) {
         'jshint'
     ]);
     grunt.registerTask('build', [
+        'jshint',
         'nodewebkit'
     ]);
 

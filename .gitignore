@@ -4,5 +4,4 @@ cache/
 games/
 node_modules/
 
-console.log
 npm-debug.log
