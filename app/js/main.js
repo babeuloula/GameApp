@@ -24,11 +24,13 @@ jQuery(function($){
                 options: {
                     frame : true,
                     toolbar: true,
-                    width: 640,
-                    height: 480,
+                    width: 1024,
+                    height: 768,
                     resizable: false,
-                    "min_width": 640,
-                    "min_height": 480,
+                    "min_width": 1024,
+                    "max_width": 1024,
+                    "min_height": 768,
+                    "max_height": 768,
                     "title": "Paramètres de GameApp",
                     "icon": "app/icons/params_48.png",
                     show: true
@@ -52,8 +54,8 @@ jQuery(function($){
     setInterval(function() {
         changeHorloge();
 
-        $("#horloge .sep").fadeOut(100, function() {
-            $("#horloge .sep").fadeIn(100);
+        $("#horloge .sep").fadeTo(100, 0, function() {
+            $("#horloge .sep").fadeTo(100, 1);
         });
     }, 1000);
 

@@ -1,9 +1,9 @@
 * {
-    outline : none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: default;
+    outline               : none;
+    -webkit-touch-callout : none;
+    -webkit-user-select   : none;
+    user-select           : none;
+    cursor                : default;
 }
 
 html, body {
@@ -11,7 +11,28 @@ html, body {
     padding     : 0;
     background  : #FFF;
     font-family : 'Geo Sans Light';
-    background  : url("../icons/gameapp_128_fade.png") center center no-repeat fixed;
+    background  : url("../icons/gameapp_256_fade.png") center center no-repeat fixed;
+}
+
+.left {
+    float : left;
+}
+
+.right {
+    float : right;
+}
+
+.clear {
+    clear : both;
+    float : none;
+}
+
+.block {
+    display : block;
+}
+
+.mr25 {
+    margin-right : 25px;
 }
 
 #addGame {
@@ -38,35 +59,136 @@ input[type=text] {
     padding       : 2px;
     border-radius : 2px 2px 2px 2px;
     border        : solid 1px #CCC;
+    cursor        : text;
+}
+
+.overlay {
+    top        : 0;
+    left       : 0;
+    right      : 0;
+    bottom     : 0;
+    position   : absolute;
+    background : rgba(0, 0, 0, 0.75);
+    z-index    : 100;
+    display    : none;
+    height     : 100%;
 }
 
 #game_title {
     width : 480px;
 }
 
+#game_platforme {
+    width : 200px;
+}
+
+#game_add_btn {
+    cursor : pointer;
+}
+
 #game_list {
-    width: 100%;
-    border: none;
+    width  : 100%;
+    border : none;
 }
 
 #game_list tr:nth-child(2n+1) {
-    background: #DDD;
+    background : #DDD;
 }
 
 #game_list .title {
-    width: 490px;
-    padding-left: 10px;
+    width        : 490px;
+    padding-left : 10px;
 }
 
 #game_list .actions {
-    width: 80px;
-    text-align: center;
+    width      : 80px;
+    text-align : center;
 }
 
 #game_list .actions .edit, #game_list .actions .del {
-    cursor: pointer;
+    cursor : pointer;
 }
 
 #game_list .actions .edit {
-    margin-right: 15px;
+    margin-right : 15px;
+}
+
+#loadingContainer {
+    position   : absolute;
+    top        : 200px;
+    left       : 200px;
+    right      : 200px;
+    text-align : center;
+    color      : #FFF;
+}
+
+#loadingMessage {
+    margin-bottom : 5px;
+}
+
+#popup_game #select_game {
+    width         : 1000px;
+    margin-bottom : 10px;
+    margin-top    : 10px;
+    margin-left   : 10px;
+}
+
+#popup_game legend {
+    color : #FFF;
+}
+
+#popup_game img {
+    border        : solid 3px #CCC;
+    border-radius : 5px 5px 5px 5px;
+    display       : block;
+    /*cursor: pointer;*/
+}
+
+#popup_game label {
+    display : block;
+    color   : #FFF;
+}
+
+#popup_game input[type=text] {
+    width         : 580px;
+    display       : block;
+    margin-bottom : 5px;
+}
+
+#popup_game #pochette_jeu {
+    max-width  : 350px;
+    max-height : 300px;
+    height     : auto;
+}
+
+#popup_game #descriptif_jeu {
+    width         : 970px;
+    height        : 120px;
+    min-width     : 970px;
+    max-width     : 970px;
+    min-height    : 120px;
+    max-height    : 120px;
+    font-family   : 'Geo Sans Light';
+    font-size     : 16px;
+    display       : block;
+    margin-bottom : 5px;
+    cursor        : text;
+}
+
+#popup_game #background_jeu, #popup_game #screenshot_jeu {
+    min-width : 125px;
+}
+
+#popup_game #annuler_jeu {
+    position : absolute;
+    right    : 150px;
+    bottom   : 30px;
+    cursor   : pointer;
+}
+
+#popup_game #enregsitrer_jeu {
+    position : absolute;
+    right    : 20px;
+    bottom   : 30px;
+    cursor   : pointer;
 }

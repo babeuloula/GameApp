@@ -1,9 +1,9 @@
 * {
-    outline : none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: default;
+    outline               : none;
+    -webkit-touch-callout : none;
+    -webkit-user-select   : none;
+    user-select           : none;
+    cursor                : default;
 }
 
 html {
@@ -21,8 +21,9 @@ body {
 }
 
 p {
-    margin      : 0;
-    padding     : 0;
+    margin    : 0;
+    padding   : 0;
+    font-size : 18px;
 }
 
 .clear {
@@ -30,7 +31,7 @@ p {
     float : none;
 }
 
-#overlay {
+#overlay, .overlay {
     top        : 0;
     left       : 0;
     right      : 0;
@@ -57,7 +58,7 @@ p {
     position   : absolute;
     background : url('images/maximize.png') center center no-repeat;
     cursor     : pointer;
-    z-index    : 5;
+    z-index    : 150;
     display    : none;
 }
 
@@ -67,7 +68,7 @@ p {
     position   : absolute;
     background : url('images/minimize.png') center center no-repeat;
     cursor     : pointer;
-    z-index    : 5;
+    z-index    : 150;
 }
 
 #horloge {
@@ -86,7 +87,7 @@ p {
     position                    : absolute;
     background                  : url('images/params.png') center center no-repeat;
     cursor                      : pointer;
-    z-index                     : 5;
+    z-index                     : 150;
     -webkit-transition-duration : 1s;
 }
 
@@ -111,9 +112,8 @@ p {
 }
 
 #gameInfo #containerInfo .infos {
-    width         : 50%;
+    width         : 20%;
     float         : left;
-    margin-left   : 2.5%;
     margin-bottom : 15px;
 }
 
@@ -138,16 +138,14 @@ p {
     position   : absolute;
     bottom     : 0;
     overflow   : hidden;
-    left       : 2.5%;
-    width      : 50%;
     float      : left;
 }
 
 #gameInfo .image {
     float         : right;
-    margin-right  : 2.5%;
     border-radius : 5px 5px 5px 5px;
     border        : solid 3px rgba(255, 255, 255, 0.25);
+    max-width     : 50%;
 }
 
 #gameList {

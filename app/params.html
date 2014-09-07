@@ -4,7 +4,7 @@
 
     <head>
 
-        <title>Params</title>
+        <title>Param&egrave;tres de GameApp</title>
 
         <link title="defaut" type="text/css" rel="stylesheet" href="css/fontface.css" media="screen">
         <link title="defaut" type="text/css" rel="stylesheet" href="css/params.css" media="screen">
@@ -19,7 +19,22 @@
     <body>
 
         <fieldset>
-            <input type="text" id="game_title"> <button id="game_add_btn">Ajouter le jeu</button>
+            <input type="text" id="game_title">
+
+            <select id="game_platforme">
+                <option value="2">PC</option>
+                <option value="5">PlayStation 2</option>
+                <option value="16">Gameboy Advance</option>
+                <option value="15">Gamecube</option>
+                <option value="6">Dreamcast</option>
+                <option value="3">Gameboy</option>
+                <option value="9">Nintendo 64</option>
+                <option value="4">PlayStation</option>
+                <option value="11">Super Nintendo</option>
+                <option value="17">Nes</option>
+            </select>
+
+            <button id="game_add_btn">Ajouter le jeu</button>
         </fieldset>
 
         <fieldset>
@@ -27,6 +42,76 @@
         
             <table id="game_list"></table>
         </fieldset>
+
+        <div id="popup_game" class="overlay">
+            <select id="select_game"></select>
+
+            <fieldset>
+                <legend>Informations sur le jeu</legend>
+
+                <input type="hidden" id="id_jeu">
+
+                <div class="left">
+                    <label for="titre_jeu">Titre</label>
+                    <input type="text" id="titre_jeu">
+
+                    <label for="type_jeu">Type</label>
+                    <input type="text" id="type_jeu">
+
+                    <label for="editeur_jeu">Editeur</label>
+                    <input type="text" id="editeur_jeu">
+
+                    <label for="developpeur_jeu">Developpeur</label>
+                    <input type="text" id="developpeur_jeu">
+
+                    <label for="sortie_jeu">Sortie</label>
+                    <input type="text" id="sortie_jeu">
+
+                    <label for="classification_jeu">Classification</label>
+                    <input type="text" id="classification_jeu">
+
+                    <label for="emplacement_jeu">Emplacement</label>
+                    <input type="text" id="emplacement_jeu">
+                </div>
+
+                <div class="right">
+                    <img id="pochette_jeu" height="300">
+                </div>
+
+                <div class="clear"></div>
+
+                <label for="descriptif_jeu">Descriptif</label>
+                <textarea id="descriptif_jeu"></textarea>
+
+                <div class="clear"></div>
+
+                <div class="left mr25">
+                    <label>Background</label>
+                    <img id="background_jeu" height="125">
+                </div>
+
+                <div class="left">
+                    <label>Screenshot</label>
+                    <img id="screenshot_jeu" height="125">
+                </div>
+
+                <div class="right">
+                    <button id="annuler_jeu">Annuler</button>
+                    <button id="enregsitrer_jeu">Sauvegarder</button>
+                </div>
+
+                <div class="clear"></div>
+            </fieldset>
+
+        </div>
+
+
+        <div id="loadingOverlay" class="overlay">
+            <div id="loadingContainer">
+                <div id="loadingMessage"></div>
+                <div id="loadingBar"><img src="css/images/ajax-loader.gif" width="220" height="19"></div>
+            </div>
+        </div>
     </body>
 
 </html>

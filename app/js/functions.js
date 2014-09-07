@@ -10,13 +10,15 @@ function init() {
 
     coverFlow();
     getInfos(0, function() {
-        $("#overlay").fadeOut(400, function() {
-            var marginTopInfos = ($("#gameInfo").height() - $('#gameInfo #containerInfo .image').height()) / 2;
-            var heightDescriptif = Math.round($('#gameInfo #containerInfo .image').height() - ($("#gameInfo .infos").height() + 15));
+        $("#overlay").fadeTo(400, 0, function() {
+            var heightImage = Math.round($("#gameInfo").height() - 100);
+            $('#gameInfo #containerInfo .image').height(heightImage);
+            var heightDescriptif = Math.round(heightImage - ($("#gameInfo .infos").height() + 15));
+            var widthInfos = $("#gameInfo").width() - $('#gameInfo #containerInfo .image').width() - 150;
 
-            $('#gameInfo #containerInfo .image').css('marginTop', marginTopInfos);
-            $("#gameInfo .infos").css('marginTop', marginTopInfos);
-            $("#gameInfo .descriptif").height(heightDescriptif);
+            $('#gameInfo #containerInfo .image').css('marginTop', '50px').css('marginRight', '50px');
+            $("#gameInfo .infos").css('marginTop', '50px').css('marginLeft', '50px').width(widthInfos);
+            $("#gameInfo .descriptif").css('marginLeft', '50px').height(heightDescriptif).width(widthInfos);
 
             $("#gameInfo #containerInfo").fadeTo(400, 1);
             $("#gameList #containerList").fadeTo(400, 1);
@@ -45,12 +47,14 @@ function reload() {
     $("#maximize").css('top', top).css('left', top);
     $("#minimize").css('top', top).css('left', top);
 
-    var marginTopInfos = ($("#gameInfo").height() - $('#gameInfo #containerInfo .image').height()) / 2;
-    var heightDescriptif = Math.round($('#gameInfo #containerInfo .image').height() - ($("#gameInfo .infos").height() + 15));
+    var heightImage = Math.round($("#gameInfo").height() - 100);
+    $('#gameInfo #containerInfo .image').height(heightImage);
+    var heightDescriptif = Math.round(heightImage - ($("#gameInfo .infos").height() + 15));
+    var widthInfos = $("#gameInfo").width() - $('#gameInfo #containerInfo .image').width() - 150;
 
-    $('#gameInfo #containerInfo .image').css('marginTop', marginTopInfos);
-    $("#gameInfo .infos").css('marginTop', marginTopInfos);
-    $("#gameInfo .descriptif").height(heightDescriptif);
+    $('#gameInfo #containerInfo .image').css('marginTop', '50px').css('marginRight', '50px');
+    $("#gameInfo .infos").css('marginTop', '50px').css('marginLeft', '50px').width(widthInfos);
+    $("#gameInfo .descriptif").css('marginLeft', '50px').height(heightDescriptif).width(widthInfos);
 
     $('#gameInfo #containerInfo .descriptif').marquee('destroy');
 
@@ -87,7 +91,7 @@ function getInfos(id, callback) {
         $('#gameInfo #containerInfo h2').css('color', color);
 
         $("#background").css('background-image', 'url("'+game[id].background+'")');
-        $('#gameInfo #containerInfo .image').attr('src', game[id].screenshot).width('40%');
+        $('#gameInfo #containerInfo .image').attr('src', game[id].screenshot);
         $('#gameInfo #containerInfo .infos h1').html(game[id].titre);
         $('#gameInfo #containerInfo .infos .editeur').html(game[id].editeur);
         $('#gameInfo #containerInfo .infos .developpeur').html(game[id].developpeur);
@@ -190,55 +194,55 @@ function actions_keyboard(keyCode) {
 
         // Gauche 37
         case 37:
+            $('#containerList').coverflow().left();
+
             if(current > 0) {
                 current = current - 1;
 
-                $("#background, #gameInfo #containerInfo").fadeOut(400, function() {
+                $("#background, #gameInfo #containerInfo").fadeTo(400, 0, function() {
                     getInfos(current, function() {
-                        $("#background, #gameInfo #containerInfo").fadeIn(1000);
+                        $("#background, #gameInfo #containerInfo").fadeTo(1000, 1);
                     });
                 });
             }
-
-            $('#containerList').coverflow().left();
             break;
 
         // Droite 39
         case 39:
+            $('#containerList').coverflow().right();
+
             if(current < total - 1) {
                 current = current + 1;
 
-                $("#background, #gameInfo #containerInfo").fadeOut(400, function() {
+                $("#background, #gameInfo #containerInfo").fadeTo(400, 0, function() {
                     getInfos(current, function() {
-                        $("#background, #gameInfo #containerInfo").fadeIn(1000);
+                        $("#background, #gameInfo #containerInfo").fadeTo(1000, 1);
                     });
                 });
             }
-
-            $('#containerList').coverflow().right();
             break;
 
         // Entrée
         case 13:
             var game = $.parseJSON(file.readFileSync('games/gameapp.json'));
+            game.sort(sortByTitle);
 
-            alert("Lancement du jeu " + game[current].titre);
+            // Loader jeu
+            alert("Lancement du jeu " + game[current].titre + '\r\n' + game[current].path);
 
-            /*child = execFile(game[current].path, function(error, stdout, stderr) {
-                if (error) {
-                    console.log(error.stack);
-                    console.log('Error code: '+ error.code);
-                    console.log('Signal received: '+
-                        error.signal);
-                }
-                console.log('Child Process stdout: '+ stdout);
-                console.log('Child Process stderr: '+ stderr);
-            });
+            if(game[current].path.indexOf('://') > 0 && game[current].path !== "") {
+                $(location).attr('href', game[current].path);
+            } else {
+                child = execFile(game[current].path, function(error,stdout,stderr) {
+                    if (error) {
+                        popup(error.stack + '<br><br>Error code: '+ error.code + '<br>Signal received: ' + error.signal);
+                    }
+                });
 
-            child.on('exit', function (code) {
-                console.log('Child process exited with exit code '+ code);
-            });*/
-
+                child.on('exit', function (code) {
+                    // Fin Loader jeu
+                });
+            }
             break;
 
         // Backspace
@@ -261,4 +265,190 @@ function changeHorloge() {
 
     $("#horloge .heure").html(heure);
     $("#horloge .minute").html(minute);
+}
+
+function popup(message) {
+    alert(message);
+}
+
+function loading(type, message, callback) {
+    if(type === 'launch') {
+
+    } else if(type === 'scrap' || type === 'download') {
+        $("#loadingMessage").html(message);
+
+        if(callback === undefined) {
+            $("#loadingOverlay").fadeIn(400);
+        } else {
+            $("#loadingOverlay").fadeIn(400, callback());
+        }
+    }
+}
+
+function loadingEnd(type, callback) {
+    if(type === 'launch') {
+
+    } else if(type === 'scrap' || type === 'download') {
+        if(callback !== undefined) {
+            $("#loadingOverlay").fadeOut(400, callback());
+        } else {
+            $("#loadingOverlay").fadeOut(400);
+        }
+    }
+}
+
+function getGameInfos(id, callback) {
+    $("#id_jeu").val('');
+    $("#titre_jeu").val('');
+    $("#type_jeu").val('');
+    $("#editeur_jeu").val('');
+    $("#developpeur_jeu").val('');
+    $("#sortie_jeu").val('');
+    $("#classification_jeu").val('');
+    $("#descriptif_jeu").val('');
+    $("#pochette_jeu").attr('src', '');
+    $("#background_jeu").attr('src', '');
+    $("#screenshot_jeu").attr('src', '');
+
+    // Infos de base
+    request('http://nex12sz:GT4!V2cT@ws.jeuxvideo.com/01.jeux/'+id+'.xml', function (error1, response1, body1) {
+        var infos = [];
+
+        if (!error1 && response1.statusCode == 200) {
+            infos.id = parseInt(id, 10);
+
+            if($(body1).find('titre').length < 1) {
+                infos.titre = '';
+            } else {
+                infos.titre = $(body1).find('titre').html().replace('<!--[CDATA[', '').replace(']]-->', '');
+            }
+
+            if($(body1).find('date_sortie').length < 1) {
+                infos.sortie = '';
+            } else {
+                infos.sortie = $(body1).find('date_sortie').html().replace('<!--[CDATA[', '').replace(']]-->', '');
+            }
+
+            if($(body1).find('editeur').length < 1) {
+                infos.editeur = '';
+            } else {
+                infos.editeur = $(body1).find('editeur').html().replace('<!--[CDATA[', '').replace(']]-->', '');
+            }
+
+            if($(body1).find('developpeur').length < 1) {
+                infos.developpeur = '';
+            } else {
+                infos.developpeur = $(body1).find('developpeur').html().replace('<!--[CDATA[', '').replace(']]-->', '');
+            }
+
+            if($(body1).find('type').length < 1) {
+                infos.type = '';
+            } else {
+                infos.type = $(body1).find('type').html().replace('<!--[CDATA[', '').replace(']]-->', '');
+            }
+
+            if($(body1).find('classification').length < 1) {
+                infos.classification = '';
+            } else {
+                infos.classification = $(body1).find('classification').html().replace('<!--[CDATA[', '').replace(']]-->', '');
+            }
+
+            if($(body1).find('vignette_grande').html() === 'http://image.jeuxvideo.com/mobile/nopack.png') {
+                infos.pochette = 'css/images/no_pochette.jpg';
+            } else {
+                infos.pochette = $(body1).find('vignette_grande').html();
+            }
+
+
+            // Résumé du jeu
+            request('http://nex12sz:GT4!V2cT@ws.jeuxvideo.com/01.jeux/details/'+id+'.xml', function (error2, response2, body2) {
+                if (!error2 && response2.statusCode == 200) {
+                    if($(body2).find('resume').length < 1) {
+                        infos.descriptif = '';
+                    } else {
+                        infos.descriptif = $(body2).find('resume').html().replace('<!--[CDATA[', '').replace(']]-->', '');
+                    }
+
+                    // Screenshot du jeu
+                    request('http://ajax.googleapis.com/ajax/services/search/images?v=1.0&start=0&rsz=1&q='+infos.titre+'%20screenshot&imgsz=huge', function (error3, response3, body3) {
+                        if (!error3 && response3.statusCode == 200) {
+                            var screenshots = $.parseJSON(body3);
+
+                            try {
+                                infos.screenshot = screenshots.responseData.results[0].url;
+                            } catch(err) {
+                                infos.screenshot = 'css/images/gameapp.jpg';
+                            }
+
+                            request('http://ajax.googleapis.com/ajax/services/search/images?v=1.0&start=0&rsz=8&q='+infos.titre+'%20wallpaper&imgsz=huge', function (error4, response4, body4) {
+                                if (!error4 && response4.statusCode == 200) {
+                                    var wallpapers = $.parseJSON(body4);
+
+                                    infos.background = 'css/images/gameapp.jpg';
+                                    try {
+                                        var finish = false;
+                                        for(var w = 0; w < wallpapers.responseData.results.length; w++) {
+                                            if(!finish) {
+                                                if(wallpapers.responseData.results[w].width === '1920' && wallpapers.responseData.results[w].height === '1080') {
+                                                    infos.background = wallpapers.responseData.results[w].url;
+                                                    finish = true;
+                                                }
+                                            }
+                                        }
+                                    } catch(err) {
+                                        infos.background = 'css/images/gameapp.jpg';
+                                    }
+
+                                    callback(infos);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+function downloadImage(path, url, callback) {
+    var image = url.split('/').pop();
+    var file = fs.createWriteStream(path + image);
+    var request = http.get(url, function(response) {
+        response.pipe(file);
+
+        if(callback !== undefined) {
+            callback();
+        }
+    });
+}
+
+function resParams() {
+    $("#id_jeu").val('');
+    $("#titre_jeu").val('');
+    $("#type_jeu").val('');
+    $("#editeur_jeu").val('');
+    $("#developpeur_jeu").val('');
+    $("#sortie_jeu").val('');
+    $("#classification_jeu").val('');
+    $("#emplacement_jeu").val('');
+    $("#descriptif_jeu").val('');
+
+    $("#pochette_jeu").attr('src', '');
+    $("#background_jeu").attr('src', '');
+    $("#screenshot_jeu").attr('src', '');
+
+    var list = $.parseJSON(file.readFileSync('games/gameapp.json'));
+    list.sort(sortByTitle);
+
+    $('#game_list').html('');
+    for(var i = 0; i < list.length; i++) {
+        $edit = $('<img/>').addClass('edit').attr('src', 'css/images/edit.png');
+        $suppr = $('<img/>').addClass('del').attr('src', 'css/images/supprimer.png');
+
+        $titre = $('<td/>').addClass('title').html(list[i].titre);
+        $actions = $('<td/>').addClass('actions').append($edit).append($suppr);
+
+        $tr = $('<tr/>').attr('id', list[i].id).append($titre).append($actions);
+        $('#game_list').append($tr);
+    }
 }
