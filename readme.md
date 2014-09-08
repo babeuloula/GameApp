@@ -1,4 +1,73 @@
 GameApp v0.4
 ============
 
-Réécriture total de l'application
+Lancez vos jeux favoris via votre gamepad grâce à une interface adaptée et simplifiée 
+
+Changelog
+=========
+
+Regardez le fichier changelog.md
+
+
+Téléchargements
+===============
+
+Setup :
+github :
+
+
+Comment ça fonctionne ?
+=======================
+
+Les contrôles
+-------------
+
+* Flèche gauche et droite pour changer de jeu
+* Entrée pour lancer le jeu
+* Echap pour quitter l'application
+
+Ajouter des jeux
+----------------
+
+* Lancez l'application
+* Cliquez sur le bouton Paramètres en haut a droite
+* Dans la nouvelle fenêtre, entrez le nom du jeu et cliquez sur le bouton Ajouter un jeu
+* Sélectionnez le bon jeu si de base, GameApp aurait sélectionné le mauvais
+* Vérifiez si les infos sont correctes, sinon changez les
+* Inscrivez le fichier a lancer
+* Une fois le jeu ajouté, vous pourrez éditer les informations du jeu en cliquant sur le crayon à droite
+* Pour supprimer un jeu, cliquez simplement sur la croix à droite
+
+Cas d'utilisation des jeux Steam et UPlay
+-----------------------------------------
+
+Pour les jeux Steam et UPlay, il vous suffit d'indiquer dans le chemin d'accès au jeu :
+* Steam : steam://ID_DU_JEU
+* UPlay : uplay://ID_DU_JEU
+
+Pour trouver ces informations, créez un raccourcis du jeu sur votre bureau grâce au logiciel et faites Clic Droit -> Propriétés
+
+
+Compatibilité
+=============
+
+* GameApp est compatible PC et Mac
+* Le système est responsive mais demande tout de même une résolution minimale de 1280*720
+
+
+Choses prévues dans les versions futurs
+=======================================
+
+* Contrôller GameApp via un gamepad
+* Proposer plusieurs types d'affichages
+
+
+Si vous constatez le moindre bug, ou si vous avez des propositions n'hésitez pas.
+Comme toutes les choses que je propose sur GitHub, vous pouvez réutilisez les sources comme bon vous semble. Par contre essayez juste de m'envoyer un mail pour me montrer vos créations.
+Et si le coeur vous en dit, n'hésitez pas à me payer une bière, GameApp est sous licence BeerWare.
+
+
+Remerciements
+=============
+
+* Roger Wang pour Node Webkit (https://github.com/rogerwang/node-webkit)
