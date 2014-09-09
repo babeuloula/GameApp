@@ -3,12 +3,12 @@ GameApp v0.4
 
 Lancez vos jeux favoris via votre gamepad grâce à une interface adaptée et simplifiée.
 
-![GameApp Windows](http://www.babeuloula.fr/fichiers/images/accueil.png)
+![GameApp Windows](windows.png)
 
 Changelog
 =========
 
-Regardez le fichier changelog.md
+Regardez le fichier [changelog.md](changelog.md)
 
 
 Téléchargements
@@ -84,7 +84,7 @@ Choses prévues dans les versions futurs
 
 Si vous constatez le moindre bug, ou si vous avez des propositions n'hésitez pas.
 Comme toutes les choses que je propose sur GitHub, vous pouvez réutilisez les sources comme bon vous semble. Par contre essayez juste de m'envoyer un mail pour me montrer vos créations.
-Et si le coeur vous en dit, n'hésitez pas à me payer une bière, GameApp est sous licence BeerWare.
+Et si le coeur vous en dit, n'hésitez pas à me payer une bière, GameApp est sous licence BeerWare.     
 
 
 Remerciements
