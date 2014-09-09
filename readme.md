@@ -1,7 +1,9 @@
 GameApp v0.4
 ============
 
-Lancez vos jeux favoris via votre gamepad grâce à une interface adaptée et simplifiée 
+Lancez vos jeux favoris via votre gamepad grâce à une interface adaptée et simplifiée.
+
+![GameApp Windows](http://www.babeuloula.fr/fichiers/images/accueil.png)
 
 Changelog
 =========
@@ -12,8 +14,17 @@ Regardez le fichier changelog.md
 Téléchargements
 ===============
 
-Setup :
-github :
+Setup
+-----
+
+Windows : <http://www.babeuloula.fr/fichiers/projets/gameapp-latest-win.zip>
+Mac OS : <http://www.babeuloula.fr/fichiers/projets/gameapp-latest-osx.zip>
+
+Github
+------
+
+`git clone https://github.com/https://github.com/babeuloula/GameApp`
+`npm install`
 
 
 Comment ça fonctionne ?
@@ -35,13 +46,22 @@ Ajouter des jeux
 * Sélectionnez le bon jeu si de base, GameApp aurait sélectionné le mauvais
 * Vérifiez si les infos sont correctes, sinon changez les
 * Inscrivez le fichier a lancer
-* Une fois le jeu ajouté, vous pourrez éditer les informations du jeu en cliquant sur le crayon à droite
-* Pour supprimer un jeu, cliquez simplement sur la croix à droite
+
+Editer un jeu
+-------------
+
+* Cliquez sur le crayon à droite
+
+Supprimer un jeu
+----------------
+
+* Cliquez sur la croix à droite
 
 Cas d'utilisation des jeux Steam et UPlay
 -----------------------------------------
 
 Pour les jeux Steam et UPlay, il vous suffit d'indiquer dans le chemin d'accès au jeu :
+
 * Steam : steam://ID_DU_JEU
 * UPlay : uplay://ID_DU_JEU
 
@@ -70,4 +90,4 @@ Et si le coeur vous en dit, n'hésitez pas à me payer une bière, GameApp est s
 Remerciements
 =============
 
-* Roger Wang pour Node Webkit (https://github.com/rogerwang/node-webkit)
+* Roger Wang pour Node Webkit (<https://github.com/rogerwang/node-webkit>)

@@ -11,7 +11,7 @@ html, body {
     padding     : 0;
     background  : #FFF;
     font-family : 'Geo Sans Light';
-    background  : url("../icons/gameapp_256_fade.png") center center no-repeat fixed;
+    background  : #FFF url("../icons/gameapp_256_fade.png") center center no-repeat fixed;
 }
 
 .left {
@@ -35,6 +35,58 @@ html, body {
     margin-right : 25px;
 }
 
+.bouton {
+    position              : relative;
+    font-family           : 'Open Sans', sans-serif;
+    font-size             : 12px;
+    text-decoration       : none;
+    color                 : #FFF;
+
+    background-image      : -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3BB3E0), color-stop(100%, #209AC8));
+    background-image      : -webkit-linear-gradient(top, #3BB3E0, #209AC8);
+    background-image      : linear-gradient(top, #3BB3E0, #209AC8);
+    -webkit-border-radius : 5px;
+    border-radius         : 5px;
+    -webkit-box-shadow    : inset 0px 1px 0px #209AC8, 0px 5px 0px 0px #156786, 0px 10px 5px #999;
+    box-shadow            : inset 0px 1px 0px #209AC8, 0px 5px 0px 0px #156786, 0px 10px 5px #999;
+    padding               : 10px 20px;
+    padding-right         : 40px;
+
+    border                : none;
+
+    cursor                : pointer;
+}
+
+.bouton:active {
+    top                : 4px;
+    background-image   : -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #3BB3E0), color-stop(100%, #209AC8));
+    background-image   : -webkit-linear-gradient(bottom, #3BB3E0, #209AC8);
+    background-image   : linear-gradient(bottom, #3BB3E0, #209AC8);
+    -webkit-box-shadow : inset 0px 1px 0px #209AC8, 0px 1px 0px 0px #156786, 0px 3px 5px #999;
+    box-shadow         : inset 0px 1px 0px #209AC8, 0px 1px 0px 0px #156786, 0px 3px 5px #999;
+}
+
+.bouton:before {
+    content               : "";
+    width                 : 20px;
+    height                : 20px;
+    display               : block;
+    position              : absolute;
+    top                   : 50%;
+    margin-top            : -10px;
+    right                 : 10px;
+    -webkit-border-radius : 50%;
+    border-radius         : 50%;
+    -webkit-box-shadow    : inset 0px 1px 0px #0B3544, 0px 1px 0px #67C4E7;
+    box-shadow            : inset 0px 1px 0px #0B3544, 0px 1px 0px #67C4E7;
+}
+
+.bouton:active:before {
+    margin-top         : -14px;
+    -webkit-box-shadow : inset 0px 1px 0px #67C4E7, 0px 4px 0px 0px #0E465A, 0px 4px 5px #125670;
+    box-shadow         : inset 0px 1px 0px #67C4E7, 0px 4px 0px 0px #0E465A, 0px 4px 5px #125670;
+}
+
 #addGame {
     border        : solid 3px #CCC;
     width         : 25px;
@@ -45,7 +97,7 @@ html, body {
 }
 
 fieldset {
-    border        : solid 3px #CCC;
+    border        : solid 3px #209AC8;
     margin        : 10px;
     border-radius : 5px 5px 5px 5px;
 }
@@ -53,12 +105,19 @@ fieldset {
 legend {
     padding-left  : 10px;
     padding-right : 10px;
+    color         : #209AC8 !important;
+    font-weight   : bold;
+}
+
+label {
+    color       : #209AC8 !important;
+    font-weight : bold;
 }
 
 input[type=text] {
     padding       : 2px;
     border-radius : 2px 2px 2px 2px;
-    border        : solid 1px #CCC;
+    border        : solid 1px #209AC8;
     cursor        : text;
 }
 
@@ -68,7 +127,7 @@ input[type=text] {
     right      : 0;
     bottom     : 0;
     position   : absolute;
-    background : rgba(0, 0, 0, 0.75);
+    background : #FFF url("../icons/gameapp_256_fade.png") center center no-repeat fixed;
     z-index    : 100;
     display    : none;
     height     : 100%;
@@ -79,11 +138,13 @@ input[type=text] {
 }
 
 #game_platforme {
-    width : 200px;
+    width         : 200px;
+    border        : solid 1px #209AC8;
+    border-radius : 2px 2px 2px 2px;
 }
 
-#game_add_btn {
-    cursor : pointer;
+#game_add_btn:before {
+    background : url('images/add.png') center center no-repeat #209AC8;
 }
 
 #game_list {
@@ -92,7 +153,7 @@ input[type=text] {
 }
 
 #game_list tr:nth-child(2n+1) {
-    background : #DDD;
+    background : rgba(32, 154, 200, 0.5);
 }
 
 #game_list .title {
@@ -119,7 +180,7 @@ input[type=text] {
     left       : 200px;
     right      : 200px;
     text-align : center;
-    color      : #FFF;
+    color      : #000;
 }
 
 #loadingMessage {
@@ -127,18 +188,20 @@ input[type=text] {
 }
 
 #popup_game #select_game {
-    width         : 1000px;
+    width         : 990px;
     margin-bottom : 10px;
     margin-top    : 10px;
     margin-left   : 10px;
+    border        : solid 1px #209AC8;
+    border-radius : 2px 2px 2px 2px;
 }
 
 #popup_game legend {
-    color : #FFF;
+    color : #000;
 }
 
 #popup_game img {
-    border        : solid 3px #CCC;
+    border        : solid 3px #209AC8;
     border-radius : 5px 5px 5px 5px;
     display       : block;
     /*cursor: pointer;*/
@@ -146,13 +209,15 @@ input[type=text] {
 
 #popup_game label {
     display : block;
-    color   : #FFF;
+    color   : #000;
 }
 
 #popup_game input[type=text] {
     width         : 580px;
     display       : block;
     margin-bottom : 5px;
+    background    : rgba(255, 255, 255, 0.5);
+    border-radius : 2px 2px 2px 2px;
 }
 
 #popup_game #pochette_jeu {
@@ -162,10 +227,10 @@ input[type=text] {
 }
 
 #popup_game #descriptif_jeu {
-    width         : 970px;
+    width         : 950px;
     height        : 120px;
-    min-width     : 970px;
-    max-width     : 970px;
+    min-width     : 950px;
+    max-width     : 950px;
     min-height    : 120px;
     max-height    : 120px;
     font-family   : 'Geo Sans Light';
@@ -173,6 +238,9 @@ input[type=text] {
     display       : block;
     margin-bottom : 5px;
     cursor        : text;
+    background    : rgba(255, 255, 255, 0.5);
+    border        : solid 1px #209AC8;
+    border-radius : 2px 2px 2px 2px;
 }
 
 #popup_game #background_jeu, #popup_game #screenshot_jeu {
@@ -181,14 +249,99 @@ input[type=text] {
 
 #popup_game #annuler_jeu {
     position : absolute;
-    right    : 150px;
-    bottom   : 30px;
+    right    : 170px;
+    top      : 655px;
     cursor   : pointer;
 }
 
-#popup_game #enregsitrer_jeu {
+#popup_game #annuler_jeu:before {
+    background : url('images/cross.png') center center no-repeat #209AC8;
+}
+
+#popup_game #enregsitrer_jeu, #popup_game #modifier_jeu {
     position : absolute;
     right    : 20px;
-    bottom   : 30px;
+    top      : 655px;
     cursor   : pointer;
+}
+
+#popup_game #enregsitrer_jeu:before {
+    background : url('images/valid.png') center center no-repeat #209AC8;
+}
+
+#popup_game #modifier_jeu:before {
+    background : url('images/pen.png') center center no-repeat #209AC8;
+}
+
+#popup_game #annuler_jeu:active, #popup_game #enregsitrer_jeu:active, #popup_game #modifier_jeu:active {
+    top : 659px !important;
+}
+
+#popup #popupContainer, #delGame #delGameContainer {
+    position   : absolute;
+    top        : 200px;
+    left       : 300px;
+    right      : 300px;
+    text-align : center;
+    color      : #000;
+}
+
+#delGame #delGameContainer #non {
+    float       : left;
+    margin-left : 100px;
+    margin-top  : 10px;
+}
+
+#delGame #delGameContainer #non:before {
+    background : url('images/cross.png') center center no-repeat #209AC8;
+}
+
+#delGame #delGameContainer #oui {
+    float        : right;
+    margin-right : 100px;
+    margin-top   : 10px;
+}
+
+#popup #popupContainer #ok {
+    text-align : center;
+    margin-top : 10px;
+}
+
+#delGame #delGameContainer #oui:before, #popup #popupContainer #ok:before {
+    background : url('images/valid.png') center center no-repeat #209AC8;
+}
+
+svg {
+    display        : inline-block;
+    vertical-align : middle;
+}
+
+path {
+    stroke            : #209AC8;
+    stroke-width      : 6;
+    stroke-linejoin   : round;
+    stroke-linecap    : round;
+    stroke-dasharray  : 193.904983521;
+    fill              : none;
+    -webkit-animation : load 4s linear infinite, color 3s linear infinite;
+    -moz-animation    : load 4s linear infinite, color 3s linear infinite;
+    animation         : load 4s linear infinite, color 3s linear infinite;
+}
+
+@-webkit-keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}
+
+@-moz-keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}
+
+@keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
 }

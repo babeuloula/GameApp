@@ -227,22 +227,32 @@ function actions_keyboard(keyCode) {
             var game = $.parseJSON(file.readFileSync('games/gameapp.json'));
             game.sort(sortByTitle);
 
-            // Loader jeu
-            alert("Lancement du jeu " + game[current].titre + '\r\n' + game[current].path);
+            getColor(game[current].background, function(color) {
+                $("#loading").css('color', color).width($(window).width()).height($(window).height());
+                $("path").css('stroke', color);
 
-            if(game[current].path.indexOf('://') > 0 && game[current].path !== "") {
-                $(location).attr('href', game[current].path);
-            } else {
-                child = execFile(game[current].path, function(error,stdout,stderr) {
-                    if (error) {
-                        popup(error.stack + '<br><br>Error code: '+ error.code + '<br>Signal received: ' + error.signal);
-                    }
-                });
+                loading('launch', "Chargement du jeu en cours", function() {
+                    /*if(game[current].path.indexOf('://') > 0 && game[current].path !== "") {
+                        $(location).attr('href', game[current].path);
+                    } else {
+                        child = execFile(game[current].path, function(error,stdout,stderr) {
+                            if (error) {
+                                popup(error.stack + '<br><br>Error code: '+ error.code + '<br>Signal received: ' + error.signal);
+                            }
+                        });
 
-                child.on('exit', function (code) {
-                    // Fin Loader jeu
+                        child.on('exit', function (code) {
+                            loadingEnd('launch');
+                        });
+                    }*/
+
+                    setTimeout(function() {
+                        loadingEnd('launch');
+                    }, 5000);
                 });
-            }
+            });
+
+
             break;
 
         // Backspace
@@ -268,12 +278,18 @@ function changeHorloge() {
 }
 
 function popup(message) {
-    alert(message);
+    loading('popup', message);
 }
 
 function loading(type, message, callback) {
     if(type === 'launch') {
+        $("#loading #messageLoading").html(message);
 
+        if(callback === undefined) {
+            $("#loading").fadeIn(400);
+        } else {
+            $("#loading").fadeIn(400, callback());
+        }
     } else if(type === 'scrap' || type === 'download') {
         $("#loadingMessage").html(message);
 
@@ -282,17 +298,49 @@ function loading(type, message, callback) {
         } else {
             $("#loadingOverlay").fadeIn(400, callback());
         }
+    } else if(type === 'confirmation') {
+        $("#delGame #message").html(message);
+
+        if(callback === undefined) {
+            $("#delGame").fadeIn(400);
+        } else {
+            $("#delGame").fadeIn(400, callback());
+        }
+    } else if(type === 'popup') {
+        $("#popup #popupMessage").html(message);
+
+        if(callback === undefined) {
+            $("#popup").fadeIn(400);
+        } else {
+            $("#popup").fadeIn(400, callback());
+        }
     }
 }
 
 function loadingEnd(type, callback) {
     if(type === 'launch') {
-
+        if(callback !== undefined) {
+            $("#loading").fadeOut(400, callback());
+        } else {
+            $("#loading").fadeOut(400);
+        }
     } else if(type === 'scrap' || type === 'download') {
         if(callback !== undefined) {
             $("#loadingOverlay").fadeOut(400, callback());
         } else {
             $("#loadingOverlay").fadeOut(400);
+        }
+    } else if(type === 'confirmation') {
+        if(callback === undefined) {
+            $("#delGame").fadeOut(400);
+        } else {
+            $("#delGame").fadeOut(400, callback());
+        }
+    } else if(type === 'popup') {
+        if(callback === undefined) {
+            $("#popup").fadeOut(400);
+        } else {
+            $("#popup").fadeOut(400, callback());
         }
     }
 }
@@ -451,4 +499,8 @@ function resParams() {
         $tr = $('<tr/>').attr('id', list[i].id).append($titre).append($actions);
         $('#game_list').append($tr);
     }
+}
+
+function addslashes(str) {
+    return (str + '').replace(/[\\"]/g, '\\$&').replace(/\u0000/g, '\\0');
 }

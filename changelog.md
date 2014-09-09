@@ -11,6 +11,7 @@ GameApp 0.4
 * Vérification du code JavaScript grâce à Grunt JSHint
 * Compatibilité Mac OS
 * GameApp est maintenant responsive, mais avec une résolution minimale de 1280*720
+* Vous pouvez maintenant lancer des jeux consoles (il faut que l'émulateur soit installé sur la machine)
 
 GameApp 0.3
 ===========

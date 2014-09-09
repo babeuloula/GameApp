@@ -163,3 +163,83 @@ p {
     height   : 100%;
     opacity  : 0;
 }
+
+#loading {
+    display: none;
+    text-align: center;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 999;
+    line-height: 100vh;
+    font-size: 40px;
+}
+
+#loading #messageLoading {
+    position: absolute;
+    top: 100px;
+    text-align: center;
+    width: 100%;
+}
+
+svg {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+path {
+    stroke: #209AC8;
+    stroke-width: 6;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-dasharray: 193.904983521;
+    fill: none;
+    -webkit-animation: load 4s linear infinite, color 3s linear infinite;
+    -moz-animation: load 4s linear infinite, color 3s linear infinite;
+    animation: load 4s linear infinite, color 3s linear infinite;
+}
+
+@-webkit-keyframes load {
+    from { stroke-dashoffset: 775.6199340820312; }
+}
+
+@-moz-keyframes load {
+    from { stroke-dashoffset: 775.6199340820312; }
+}
+
+@keyframes load {
+    from { stroke-dashoffset: 775.6199340820312; }
+}
+
+path {
+    stroke            : #209AC8;
+    stroke-width      : 6;
+    stroke-linejoin   : round;
+    stroke-linecap    : round;
+    stroke-dasharray  : 193.904983521;
+    fill              : none;
+    -webkit-animation : load 4s linear infinite, color 3s linear infinite;
+    -moz-animation    : load 4s linear infinite, color 3s linear infinite;
+    animation         : load 4s linear infinite, color 3s linear infinite;
+}
+
+@-webkit-keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}
+
+@-moz-keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}
+
+@keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}

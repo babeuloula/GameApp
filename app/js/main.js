@@ -25,12 +25,12 @@ jQuery(function($){
                     frame : true,
                     toolbar: true,
                     width: 1024,
-                    height: 768,
+                    height: 600,
                     resizable: false,
                     "min_width": 1024,
                     "max_width": 1024,
-                    "min_height": 768,
-                    "max_height": 768,
+                    "min_height": 600,
+                    "max_height": 600,
                     "title": "Paramètres de GameApp",
                     "icon": "app/icons/params_48.png",
                     show: true
@@ -41,7 +41,7 @@ jQuery(function($){
         var params = global.windowManager.open('params');
 
         params.on('close', function() {
-            window.location.reload();
+            document.location.reload(true);
         });
     });
 
