@@ -23,7 +23,7 @@ Setup
 Github
 ------
 
-`git clone https://github.com/https://github.com/babeuloula/GameApp`
+`git clone https://github.com/https://github.com/babeuloula/GameApp`     
 `npm install`
 
 
