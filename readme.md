@@ -17,13 +17,13 @@ Téléchargements
 Setup
 -----
 
-* Windows : <http://www.babeuloula.fr/fichiers/projets/gameapp-latest-win.zip>
-* Mac OSX : <http://www.babeuloula.fr/fichiers/projets/gameapp-latest-osx.zip>
+* __Windows__ : <http://www.babeuloula.fr/fichiers/projets/gameapp-latest-win.zip>
+* __Mac OSX__ : <http://www.babeuloula.fr/fichiers/projets/gameapp-latest-osx.zip>
 
 Github
 ------
 
-`git clone https://github.com/https://github.com/babeuloula/GameApp`
+`git clone https://github.com/https://github.com/babeuloula/GameApp`     
 `npm install`
 
 
@@ -62,8 +62,8 @@ Cas d'utilisation des jeux Steam et UPlay
 
 Pour les jeux Steam et UPlay, il vous suffit d'indiquer dans le chemin d'accès au jeu :
 
-* Steam : steam://ID_DU_JEU
-* UPlay : uplay://ID_DU_JEU
+* __Steam__ : steam://ID_DU_JEU
+* __UPlay__ : uplay://ID_DU_JEU
 
 Pour trouver ces informations, créez un raccourcis du jeu sur votre bureau grâce au logiciel et faites Clic Droit -> Propriétés
 
@@ -81,9 +81,7 @@ Choses prévues dans les versions futurs
 * Contrôller GameApp via un gamepad
 * Proposer plusieurs types d'affichages
 
-Si vous constatez le moindre bug, ou si vous avez des propositions n'hésitez pas.
-Comme toutes les choses que je propose sur GitHub, vous pouvez réutilisez les sources comme bon vous semble. Par contre essayez juste de m'envoyer un mail pour me montrer vos créations.
-Et si le coeur vous en dit, n'hésitez pas à me payer une bière, GameApp est sous licence Beerware.     
+Si vous constatez le moindre bug, ou si vous avez des propositions n'hésitez pas. Comme toutes les choses que je propose sur GitHub, vous pouvez réutilisez les sources comme bon vous semble. Par contre essayez juste de m'envoyer un mail pour me montrer vos créations. Et si le coeur vous en dit, n'hésitez pas à me payer une bière, GameApp est sous licence Beerware.
 
 Remerciements
 =============
@@ -92,4 +90,4 @@ Remerciements
 * Jamie "neiio" Green pour son icône (<http://neiio.deviantart.com/>)
 * Jeuxvideo.com pour leur API (<http://www.jeuxvideo.com/>)
 * Bennett Feely pour son loader animé en SVG (<http://codepen.io/bennettfeely/pen/lyJdw>)
-* Et tous ceux que j'aurai ooublié
+* Et tous ceux que j'aurai oublié
