@@ -485,14 +485,19 @@ function resParams() {
 
     $('#game_list').html('');
     for(var i = 0; i < list.length; i++) {
-        $edit = $('<img/>').addClass('edit').attr('src', 'css/images/edit.png');
-        $suppr = $('<img/>').addClass('del').attr('src', 'css/images/supprimer.png');
+        $titre = $('<div/>').addClass('title').html(json[i].titre);
 
-        $titre = $('<td/>').addClass('title').html(list[i].titre);
-        $actions = $('<td/>').addClass('actions').append($edit).append($suppr);
+        $edit = $('<img/>').addClass('edit').attr('id_jeu', json[i].id).attr('src', 'css/images/edit.png');
+        $suppr = $('<img/>').addClass('del').attr('id_jeu', json[i].id).attr('src', 'css/images/supprimer.png');
+        $actions = $('<div/>').addClass('actions').append($edit).append($suppr);
 
-        $tr = $('<tr/>').attr('id', list[i].id).append($titre).append($actions);
-        $('#game_list').append($tr);
+        $bottom = $('<div/>').addClass('bottom').append($titre).append($actions);
+
+        $pochette = $('<img/>').attr('src', json[i].image).addClass('pochette');
+
+        $game = $('<div/>').addClass('game').attr('id', json[i].id).append($pochette).append($bottom);
+
+        $('#game_list').append($game);
     }
 }
 
