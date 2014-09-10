@@ -148,21 +148,57 @@ input[type=text] {
 }
 
 #game_list {
-    width  : 100%;
-    border : none;
+    padding-top: 20px;
 }
 
-#game_list tr:nth-child(2n+1) {
-    background : rgba(32, 154, 200, 0.5);
+#game_list .game {
+    width: 156px;
+    height: 216px;
+    margin-left: 30px;
+    position: relative;
+    display: inline-table;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+#game_list .game .pochette {
+    width: 150px;
+    height: auto;
+    max-height: 210px;
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius        : 5px 5px 5px 5px;
+    border        : solid 3px #209AC8;
+}
+
+#game_list .game .bottom {
+    background : rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 150px;
+    left: 3px; right: 3px; bottom: -150px;
+    -webkit-border-radius: 0px 0px 5px 5px;
+    border-radius        : 0px 0px 5px 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    -webkit-transition-duration: 250ms;
+    transition-duration: 250ms;
+}
+
+#game_list .game:hover .bottom {
+    bottom: 3px;
 }
 
 #game_list .title {
-    width        : 490px;
-    padding-left : 10px;
+    width        : 150px;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #FFF;
+    font-weight: bold;
 }
 
 #game_list .actions {
-    width      : 80px;
+    width      : 150px;
     text-align : center;
 }
 

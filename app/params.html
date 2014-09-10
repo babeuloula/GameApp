@@ -21,7 +21,7 @@
 
     <body>
 
-        <fieldset>
+        <fieldset id="init">
             <input type="text" id="game_title">
 
             <select id="game_platforme">
@@ -53,10 +53,8 @@
             <button id="game_add_btn" class="bouton">Ajouter le jeu</button>
         </fieldset>
 
-        <fieldset>
+        <fieldset id="game_list">
             <legend>Liste des jeux</legend>
-        
-            <table id="game_list"></table>
         </fieldset>
 
         <div id="popup_game" class="overlay">
@@ -119,9 +117,7 @@
 
                 <div class="clear"></div>
             </fieldset>
-
         </div>
-
 
         <div id="loadingOverlay" class="overlay">
             <div id="loadingContainer">

@@ -3,14 +3,19 @@ jQuery(function($){
     json.sort(sortByTitle);
 
     for(var i = 0; i < json.length; i++) {
+        $titre = $('<div/>').addClass('title').html(json[i].titre);
+
         $edit = $('<img/>').addClass('edit').attr('id_jeu', json[i].id).attr('src', 'css/images/edit.png');
         $suppr = $('<img/>').addClass('del').attr('id_jeu', json[i].id).attr('src', 'css/images/supprimer.png');
+        $actions = $('<div/>').addClass('actions').append($edit).append($suppr);
 
-        $titre = $('<td/>').addClass('title').html(json[i].titre);
-        $actions = $('<td/>').addClass('actions').append($edit).append($suppr);
+        $bottom = $('<div/>').addClass('bottom').append($titre).append($actions);
 
-        $tr = $('<tr/>').attr('id', json[i].id).append($titre).append($actions);
-        $('#game_list').append($tr);
+        $pochette = $('<img/>').attr('src', json[i].image).addClass('pochette');
+
+        $game = $('<div/>').addClass('game').attr('id', json[i].id).append($pochette).append($bottom);
+
+        $('#game_list').append($game);
     }
 
     $(document).on('click', '#game_add_btn', function() {
@@ -64,7 +69,9 @@ jQuery(function($){
                                                     $("#screenshot_jeu").attr('src', infos.screenshot);
 
                                                     loadingEnd('scrap', function() {
-                                                        $("#popup_game").fadeIn(400);
+                                                        $("#init").fadeOut(function() {
+                                                            $("#popup_game").fadeIn(400);
+                                                        });
                                                     });
                                                 });
                                             }
@@ -126,6 +133,8 @@ jQuery(function($){
             $("#pochette_jeu").attr('src', '');
             $("#background_jeu").attr('src', '');
             $("#screenshot_jeu").attr('src', '');
+
+            $("#init").fadeIn(400);
         });
     });
 
@@ -216,7 +225,9 @@ jQuery(function($){
                             clearInterval(checkClose);
 
                             resParams();
-                            loadingEnd('download');
+                            loadingEnd('download', function() {
+                                $("#init").fadeIn(400);
+                            });
                         }
                     }, 100)
 
@@ -267,7 +278,9 @@ jQuery(function($){
                     fs.writeFileSync('games/gameapp.json', final);
 
                     resParams();
-                    loadingEnd('download');
+                    loadingEnd('download', function() {
+                        $("#init").fadeIn(400);
+                    });
                 });
             }
         } else {
@@ -303,7 +316,9 @@ jQuery(function($){
                 $("#screenshot_jeu").attr('src', json[i].screenshot);
 
                 loadingEnd('scrap', function() {
-                    $("#popup_game").fadeIn(400);
+                    $("#init").fadeOut(function() {
+                        $("#popup_game").fadeIn(400);
+                    });
                 });
             }
         }
@@ -313,45 +328,53 @@ jQuery(function($){
     $(document).on('click', '.del', function() {
         var that = $(this);
 
-        loading('confirmation', 'Êtes-vous sûr de vouloir supprimer le jeu ?');
+        $("#init").fadeOut(function() {
+            loading('confirmation', 'Êtes-vous sûr de vouloir supprimer le jeu ?');
 
-        $(document).on('click', "#delGame #oui", function() {
-            loadingEnd('confirmation');
+            $(document).on('click', "#delGame #oui", function() {
+                loadingEnd('confirmation');
 
-            var json = file.readFileSync('games/gameapp.json');
-            var parseJSON = $.parseJSON(json);
-            var final = '[';
+                var json = file.readFileSync('games/gameapp.json');
+                var parseJSON = $.parseJSON(json);
+                var final = '[';
 
-            for(var i = 0; i < parseJSON.length; i++) {
-                if(parseJSON[i].id !== parseInt(that.attr('id_jeu'), 10)) {
-                    final+= '{' +
-                        '"id": '+parseJSON[i].id+','+
-                        '"image": "'+parseJSON[i].image+'",'+
-                        '"path": "'+addslashes(parseJSON[i].path)+'",'+
-                        '"background": "'+parseJSON[i].background+'",'+
-                        '"screenshot": "'+parseJSON[i].screenshot+'",'+
-                        '"titre": "'+addslashes(parseJSON[i].titre)+'",'+
-                        '"type": "'+addslashes(parseJSON[i].type)+'",'+
-                        '"editeur": "'+addslashes(parseJSON[i].editeur)+'",'+
-                        '"developpeur": "'+addslashes(parseJSON[i].developpeur)+'",'+
-                        '"sortie": "'+addslashes(parseJSON[i].sortie)+'",'+
-                        '"classification": "'+addslashes(parseJSON[i].classification)+'",'+
-                        '"descriptif": "'+addslashes(parseJSON[i].descriptif)+'"'+
-                        '},';
+                for(var i = 0; i < parseJSON.length; i++) {
+                    if(parseJSON[i].id !== parseInt(that.attr('id_jeu'), 10)) {
+                        final+= '{' +
+                            '"id": '+parseJSON[i].id+','+
+                            '"image": "'+parseJSON[i].image+'",'+
+                            '"path": "'+addslashes(parseJSON[i].path)+'",'+
+                            '"background": "'+parseJSON[i].background+'",'+
+                            '"screenshot": "'+parseJSON[i].screenshot+'",'+
+                            '"titre": "'+addslashes(parseJSON[i].titre)+'",'+
+                            '"type": "'+addslashes(parseJSON[i].type)+'",'+
+                            '"editeur": "'+addslashes(parseJSON[i].editeur)+'",'+
+                            '"developpeur": "'+addslashes(parseJSON[i].developpeur)+'",'+
+                            '"sortie": "'+addslashes(parseJSON[i].sortie)+'",'+
+                            '"classification": "'+addslashes(parseJSON[i].classification)+'",'+
+                            '"descriptif": "'+addslashes(parseJSON[i].descriptif)+'"'+
+                            '},';
+                    }
                 }
-            }
 
-            final = final.slice(0, -1);
-            final+= "]";
+                final = final.slice(0, -1);
+                final+= "]";
 
-            fs.writeFileSync('games/gameapp.json', final);
+                fs.writeFileSync('games/gameapp.json', final);
 
-            resParams();
-            loadingEnd('download');
+                resParams();
+                loadingEnd('download', function() {
+                    $("#init").fadeIn(400);
+                });
+            });
         });
 
+
+
         $(document).on('click', "#delGame #non", function() {
-            loadingEnd('confirmation');
+            loadingEnd('confirmation', function() {
+                $("#init").fadeIn(400);
+            });
         });
     });
 

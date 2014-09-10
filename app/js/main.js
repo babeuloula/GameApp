@@ -23,7 +23,7 @@ jQuery(function($){
                 page: "params.html",
                 options: {
                     frame : true,
-                    toolbar: true,
+                    toolbar: false,
                     width: 1024,
                     height: 600,
                     resizable: false,
