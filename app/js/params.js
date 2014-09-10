@@ -159,7 +159,10 @@ jQuery(function($){
                     loading('download', 'Enregistrement du jeu en cours');
                     var json = file.readFileSync('./games/gameapp.json');
 
-                    var new_game = ',{' +
+                    var new_game;
+
+                    if(json === '[]') {
+                        new_game = '{' +
                                         '"id": '+$("#id_jeu").val()+','+
                                         '"image": "'+'../games/images/'+$("#id_jeu").val()+'/pochette/'+$("#pochette_jeu").attr('src').split('/').pop()+'",'+
                                         '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
@@ -173,6 +176,24 @@ jQuery(function($){
                                         '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
                                         '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
                                     '}';
+                    } else {
+                        new_game = ',{' +
+                                        '"id": '+$("#id_jeu").val()+','+
+                                        '"image": "'+'../games/images/'+$("#id_jeu").val()+'/pochette/'+$("#pochette_jeu").attr('src').split('/').pop()+'",'+
+                                        '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
+                                        '"background": "'+'../games/backgrounds/'+$("#id_jeu").val()+'/'+$("#background_jeu").attr('src').split('/').pop()+'",'+
+                                        '"screenshot": "'+'../games/images/'+$("#id_jeu").val()+'/'+$("#screenshot_jeu").attr('src').split('/').pop()+'",'+
+                                        '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
+                                        '"type": "'+addslashes($("#type_jeu").val())+'",'+
+                                        '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
+                                        '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
+                                        '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
+                                        '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
+                                        '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
+                                    '}';
+                    }
+
+
                     json = json.replace(']', '') + new_game + ']';
 
                     fs.writeFileSync('games/gameapp.json', json);
