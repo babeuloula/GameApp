@@ -23,7 +23,7 @@ Setup
 Github
 ------
 
-`git clone https://github.com/https://github.com/babeuloula/GameApp`     
+`git clone https://github.com/https://github.com/babeuloula/GameApp`
 `npm install`
 
 
@@ -90,4 +90,6 @@ Remerciements
 * Jamie "neiio" Green pour son icône (<http://neiio.deviantart.com/>)
 * Jeuxvideo.com pour leur API (<http://www.jeuxvideo.com/>)
 * Bennett Feely pour son loader animé en SVG (<http://codepen.io/bennettfeely/pen/lyJdw>)
+* Lokesh Dhakar pour color-thief (<https://github.com/lokesh/color-thief>)
+* Kevin Subileau pour ses réponses (<https://github.com/ksubileau>)
 * Et tous ceux que j'aurai oublié
