@@ -229,7 +229,7 @@ jQuery(function($){
                                 $("#init").fadeIn(400);
                             });
                         }
-                    }, 100)
+                    }, 100);
 
 
                 });
@@ -380,5 +380,5 @@ jQuery(function($){
 
     $(document).on('click', '#popup #ok', function() {
         loadingEnd('popup');
-    })
+    });
 });

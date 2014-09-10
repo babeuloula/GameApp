@@ -10,7 +10,7 @@ module.exports = function(grunt) {
             options: {
                 version: '0.10.2',
                 platforms: ['win'],
-                buildDir: '../builds/'
+                buildDir: './builds/'
             },
             src: [
                 './package.json',
@@ -30,7 +30,6 @@ module.exports = function(grunt) {
         'jshint'
     ]);
     grunt.registerTask('build', [
-        'jshint',
         'nodewebkit'
     ]);
 

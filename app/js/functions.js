@@ -8,32 +8,35 @@ function init() {
     $("#maximize").css('top', top).css('left', top);
     $("#minimize").css('top', top).css('left', top);
 
-    coverFlow();
-    getInfos(0, function() {
-        $("#overlay").fadeTo(400, 0, function() {
-            var heightImage = Math.round($("#gameInfo").height() - 100);
-            $('#gameInfo #containerInfo .image').height(heightImage);
-            var heightDescriptif = Math.round(heightImage - ($("#gameInfo .infos").height() + 15));
-            var widthInfos = $("#gameInfo").width() - $('#gameInfo #containerInfo .image').width() - 150;
+    var json = file.readFileSync('./games/gameapp.json');
+    if(json !== '[]') {
+        coverFlow();
+        getInfos(0, function() {
+            $("#overlay").fadeTo(400, 0, function() {
+                var heightImage = Math.round($("#gameInfo").height() - 100);
+                $('#gameInfo #containerInfo .image').height(heightImage);
+                var heightDescriptif = Math.round(heightImage - ($("#gameInfo .infos").height() + 15));
+                var widthInfos = $("#gameInfo").width() - $('#gameInfo #containerInfo .image').width() - 150;
 
-            $('#gameInfo #containerInfo .image').css('marginTop', '50px').css('marginRight', '50px');
-            $("#gameInfo .infos").css('marginTop', '50px').css('marginLeft', '50px').width(widthInfos);
-            $("#gameInfo .descriptif").css('marginLeft', '50px').height(heightDescriptif).width(widthInfos);
+                $('#gameInfo #containerInfo .image').css('marginTop', '50px').css('marginRight', '50px');
+                $("#gameInfo .infos").css('marginTop', '50px').css('marginLeft', '50px').width(widthInfos);
+                $("#gameInfo .descriptif").css('marginLeft', '50px').height(heightDescriptif).width(widthInfos);
 
-            $("#gameInfo #containerInfo").fadeTo(400, 1);
-            $("#gameList #containerList").fadeTo(400, 1);
+                $("#gameInfo #containerInfo").fadeTo(400, 1);
+                $("#gameList #containerList").fadeTo(400, 1);
 
-            if($('#gameInfo #containerInfo .descriptif p').height() > $('#gameInfo #containerInfo .descriptif').height()) {
-                $('#gameInfo #containerInfo .descriptif').marquee({
-                    duration: 5000,
-                    gap: 25,
-                    delayBeforeStart: 1000,
-                    direction: 'up',
-                    duplicated: true
-                });
-            }
+                if($('#gameInfo #containerInfo .descriptif p').height() > $('#gameInfo #containerInfo .descriptif').height()) {
+                    $('#gameInfo #containerInfo .descriptif').marquee({
+                        duration: 5000,
+                        gap: 25,
+                        delayBeforeStart: 1000,
+                        direction: 'up',
+                        duplicated: true
+                    });
+                }
+            });
         });
-    });
+    }
 }
 
 function reload() {
@@ -70,7 +73,7 @@ function reload() {
 }
 
 function coverFlow() {
-    var playlist = $.parseJSON(file.readFileSync('games/gameapp.json'));
+    var playlist = $.parseJSON(file.readFileSync('./games/gameapp.json'));
     playlist.sort(sortByTitle);
 
     $('#containerList').coverflow({
@@ -84,7 +87,7 @@ function coverFlow() {
 }
 
 function getInfos(id, callback) {
-    var game = $.parseJSON(file.readFileSync('games/gameapp.json'));
+    var game = $.parseJSON(file.readFileSync('./games/gameapp.json'));
     game.sort(sortByTitle);
 
     getColor(game[id].background, function(color) {
@@ -148,35 +151,31 @@ function toHex(n) {
 
 
 function nodejs() {
-    if(!fs.existsSync('games/')) {
-        fs.mkdirSync('games/');
+    if(!fs.existsSync('./games/')) {
+        fs.mkdirSync('./games/');
     }
 
-    if(!fs.existsSync('games/backgrounds/')) {
-        fs.mkdirSync('games/backgrounds/');
+    if(!fs.existsSync('./games/backgrounds/')) {
+        fs.mkdirSync('./games/backgrounds/');
     }
 
-    if(!fs.existsSync('games/images/')) {
-        fs.mkdirSync('games/images/');
+    if(!fs.existsSync('./games/images/')) {
+        fs.mkdirSync('./games/images/');
     }
 
-    if(!fs.existsSync('games/gameapp.json')) {
-        fs.writeFileSync('games/gameapp.json', '[]');
+    if(!fs.existsSync('./games/gameapp.json')) {
+        fs.writeFileSync('./games/gameapp.json', '[]');
         init();
     } else {
-        var xml = file.readFileSync('games/gameapp.json');
-
-        if(xml !== '[]') {
-            //prepare(xml);
-            init();
-        } else {
-            init();
-        }
+        init();
     }
 }
 
 var current = 0;
-var total = $.parseJSON(file.readFileSync('games/gameapp.json')).length;
+var total = 0;
+if(fs.existsSync('./games/gameapp.json')) {
+    total = $.parseJSON(file.readFileSync('./games/gameapp.json')).length;
+}
 function actions_keyboard(keyCode) {
     switch(keyCode) {
         // Echap 27
@@ -224,7 +223,7 @@ function actions_keyboard(keyCode) {
 
         // Entrée
         case 13:
-            var game = $.parseJSON(file.readFileSync('games/gameapp.json'));
+            var game = $.parseJSON(file.readFileSync('./games/gameapp.json'));
             game.sort(sortByTitle);
 
             getColor(game[current].background, function(color) {
@@ -232,7 +231,7 @@ function actions_keyboard(keyCode) {
                 $("path").css('stroke', color);
 
                 loading('launch', "Chargement du jeu en cours", function() {
-                    /*if(game[current].path.indexOf('://') > 0 && game[current].path !== "") {
+                    if(game[current].path.indexOf('://') > 0 && game[current].path !== "") {
                         $(location).attr('href', game[current].path);
                     } else {
                         child = execFile(game[current].path, function(error,stdout,stderr) {
@@ -244,11 +243,7 @@ function actions_keyboard(keyCode) {
                         child.on('exit', function (code) {
                             loadingEnd('launch');
                         });
-                    }*/
-
-                    setTimeout(function() {
-                        loadingEnd('launch');
-                    }, 5000);
+                    }
                 });
             });
 
@@ -485,7 +480,7 @@ function resParams() {
     $("#background_jeu").attr('src', '');
     $("#screenshot_jeu").attr('src', '');
 
-    var list = $.parseJSON(file.readFileSync('games/gameapp.json'));
+    var list = $.parseJSON(file.readFileSync('./games/gameapp.json'));
     list.sort(sortByTitle);
 
     $('#game_list').html('');
