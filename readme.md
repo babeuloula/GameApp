@@ -81,13 +81,11 @@ Choses prévues dans les versions futurs
 * Contrôller GameApp via un gamepad
 * Proposer plusieurs types d'affichages
 
-Si vous constatez le moindre bug, ou si vous avez des propositions n'hésitez pas.
-Comme toutes les choses que je propose sur GitHub, vous pouvez réutilisez les sources comme bon vous semble. Par contre essayez juste de m'envoyer un mail pour me montrer vos créations.
-Et si le coeur vous en dit, n'hésitez pas à me payer une bière, GameApp est sous licence BeerWare.
 
 Si vous constatez le moindre bug, ou si vous avez des propositions n'hésitez pas.
 Comme toutes les choses que je propose sur GitHub, vous pouvez réutilisez les sources comme bon vous semble. Par contre essayez juste de m'envoyer un mail pour me montrer vos créations.
 Et si le coeur vous en dit, n'hésitez pas à me payer une bière, GameApp est sous licence BeerWare.
+
 
 Remerciements
 =============
@@ -96,4 +94,3 @@ Remerciements
 * Jamie "neiio" Green pour son icône (<http://neiio.deviantart.com/>)
 * Jeuxvideo.com pour leur API (<http://www.jeuxvideo.com/>)
 * Bennett Feely pour son loader animé en SVG (<http://codepen.io/bennettfeely/pen/lyJdw>)
-* Et tous ceux que j'aurai ooublié
