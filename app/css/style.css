@@ -112,9 +112,9 @@ p {
 }
 
 #gameInfo #containerInfo .infos {
-    width         : 20%;
     float         : left;
     margin-bottom : 15px;
+    max-width     : 45%;
 }
 
 #gameInfo #containerInfo .infos h1 {
@@ -139,6 +139,7 @@ p {
     bottom     : 0;
     overflow   : hidden;
     float      : left;
+    max-width: 45%;
 }
 
 #gameInfo .image {

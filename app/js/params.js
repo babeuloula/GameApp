@@ -1,5 +1,5 @@
 jQuery(function($){
-    var json = $.parseJSON(file.readFileSync('games/gameapp.json'));
+    var json = $.parseJSON(file.readFileSync('./games/gameapp.json'));
     json.sort(sortByTitle);
 
     for(var i = 0; i < json.length; i++) {
@@ -69,7 +69,7 @@ jQuery(function($){
                                                     $("#screenshot_jeu").attr('src', infos.screenshot);
 
                                                     loadingEnd('scrap', function() {
-                                                        $("#init").fadeOut(function() {
+                                                        $("#init").fadeOut(400, function() {
                                                             $("#popup_game").fadeIn(400);
                                                         });
                                                     });
@@ -157,7 +157,7 @@ jQuery(function($){
             if(id === "enregsitrer_jeu") {
                 $("#popup_game").fadeOut(400, function() {
                     loading('download', 'Enregistrement du jeu en cours');
-                    var json = file.readFileSync('games/gameapp.json');
+                    var json = file.readFileSync('./games/gameapp.json');
 
                     var new_game = ',{' +
                                         '"id": '+$("#id_jeu").val()+','+
@@ -203,7 +203,7 @@ jQuery(function($){
                     }
 
                     if($("#screenshot_jeu").attr('src') === 'css/images/gameapp.jpg') {
-                        fs.createReadStream('app/css/images/gameapp.jpg').pipe(fs.createWriteStream('games/backgrounds/'+$("#id_jeu").val()+'/gameapp.jpg'));
+                        fs.createReadStream('app/css/images/gameapp.jpg').pipe(fs.createWriteStream('games/images/'+$("#id_jeu").val()+'/gameapp.jpg'));
                         dlScreenshot = true;
                     } else {
                         downloadImage('games/images/'+$("#id_jeu").val()+'/', $("#screenshot_jeu").attr('src'), function() {
@@ -212,7 +212,7 @@ jQuery(function($){
                     }
 
                     if($("#pochette_jeu").attr('src') === 'css/images/no_pochette.jpg') {
-                        fs.createReadStream('app/css/images/no_pochette.jpg').pipe(fs.createWriteStream('games/backgrounds/'+$("#id_jeu").val()+'/no_pochette.jpg'));
+                        fs.createReadStream('app/css/images/no_pochette.jpg').pipe(fs.createWriteStream('games/images/'+$("#id_jeu").val()+'/pochette/no_pochette.jpg'));
                         dlPochette = true;
                     } else {
                         downloadImage('games/images/'+$("#id_jeu").val()+'/pochette/', $("#pochette_jeu").attr('src'), function() {
@@ -237,7 +237,7 @@ jQuery(function($){
                 $("#popup_game").fadeOut(400, function() {
                     loading('download', 'Enregistrement du jeu en cours');
 
-                    var json = file.readFileSync('games/gameapp.json');
+                    var json = file.readFileSync('./games/gameapp.json');
                     var parseJSON = $.parseJSON(json);
                     var final = '[';
 
@@ -297,7 +297,7 @@ jQuery(function($){
         $("#modifier_jeu").show();
         $("#select_game").fadeTo(0, 0);
 
-        var json = $.parseJSON(file.readFileSync('games/gameapp.json'));
+        var json = $.parseJSON(file.readFileSync('./games/gameapp.json'));
 
         for(var i = 0; i < json.length; i++) {
             if(json[i].id === parseInt(that.attr('id_jeu'), 10)) {
@@ -316,7 +316,7 @@ jQuery(function($){
                 $("#screenshot_jeu").attr('src', json[i].screenshot);
 
                 loadingEnd('scrap', function() {
-                    $("#init").fadeOut(function() {
+                    $("#init").fadeOut(400, function() {
                         $("#popup_game").fadeIn(400);
                     });
                 });
@@ -328,13 +328,13 @@ jQuery(function($){
     $(document).on('click', '.del', function() {
         var that = $(this);
 
-        $("#init").fadeOut(function() {
+        $("#init").fadeOut(400, function() {
             loading('confirmation', 'Êtes-vous sûr de vouloir supprimer le jeu ?');
 
             $(document).on('click', "#delGame #oui", function() {
                 loadingEnd('confirmation');
 
-                var json = file.readFileSync('games/gameapp.json');
+                var json = file.readFileSync('./games/gameapp.json');
                 var parseJSON = $.parseJSON(json);
                 var final = '[';
 
@@ -354,6 +354,16 @@ jQuery(function($){
                             '"classification": "'+addslashes(parseJSON[i].classification)+'",'+
                             '"descriptif": "'+addslashes(parseJSON[i].descriptif)+'"'+
                             '},';
+                    } else {
+                        try {
+                            fs.unlinkSync('./games/background/'+parseJSON[i].id+'/'+parseJSON[i].background);
+                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/'+parseJSON[i].screenshot);
+                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/pochette/'+parseJSON[i].image);
+
+                            fs.rmdirSync('./games/background/'+parseJSON[i].id+'/');
+                            fs.rmdirSync('./games/images/'+parseJSON[i].id+'/pochette/');
+                            fs.rmdirSync('./games/images/'+parseJSON[i].id+'/');
+                        } catch(e) {}
                     }
                 }
 

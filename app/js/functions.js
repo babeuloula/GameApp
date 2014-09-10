@@ -107,8 +107,10 @@ function getInfos(id, callback) {
     });
 }
 
-function sortByTitle(key1, key2) {
-    return key1.titre > key2.titre;
+function sortByTitle(a, b) {
+    if (a.titre < b.titre) return -1;
+    else if (a.titre == b.titre) return 0;
+    else return 1;
 }
 
 function getColor(src, callback) {
@@ -363,7 +365,7 @@ function getGameInfos(id, callback) {
             if($(body1).find('titre').length < 1) {
                 infos.titre = '';
             } else {
-                infos.titre = $(body1).find('titre').html().replace('<!--[CDATA[', '').replace(']]-->', '');
+                infos.titre = $(body1).find('titre').html().replace('<!--[CDATA[', '').replace(' : ', ' ').replace(']]-->', '');
             }
 
             if($(body1).find('date_sortie').length < 1) {
