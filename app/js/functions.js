@@ -9,6 +9,15 @@ function init() {
     $("#minimize").css('top', top).css('left', top);
 
     var json = file.readFileSync('./games/gameapp.json');
+    try {
+        $.parseJSON(json);
+    } catch(err) {
+        // Si le fichier à une erreur, on le réinitialise
+        fs.writeFileSync('./games/gameapp.json', '[]');
+        json = '[]';
+    }
+
+
     if(json !== '[]') {
         coverFlow();
         getInfos(0, function() {
@@ -176,7 +185,12 @@ function nodejs() {
 var current = 0;
 var total = 0;
 if(fs.existsSync('./games/gameapp.json')) {
-    total = $.parseJSON(file.readFileSync('./games/gameapp.json')).length;
+    try {
+        total = $.parseJSON(file.readFileSync('./games/gameapp.json')).length;
+    } catch(err) {
+        // Si le fichier à une erreur, on le réinitialise
+        total = 0;
+    }
 }
 function actions_keyboard(keyCode) {
     switch(keyCode) {
