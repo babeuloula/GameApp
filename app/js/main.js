@@ -13,17 +13,13 @@ jQuery(function($){
         actions_keyboard(e.keyCode);
     });
 
-    $(document).keydown(function(e) {
-        //console.log(e.keyCode);
-    });
-
     $(document).on('click', '#params', function() {
         global.windowManager = new WindowManager(gui, {
             "params": {
                 page: "params.html",
                 options: {
                     frame : true,
-                    toolbar: false,
+                    toolbar: true,
                     width: 1024,
                     height: 600,
                     resizable: false,

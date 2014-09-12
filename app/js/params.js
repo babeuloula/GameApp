@@ -377,14 +377,16 @@ jQuery(function($){
                             '},';
                     } else {
                         try {
-                            fs.unlinkSync('./games/background/'+parseJSON[i].id+'/'+parseJSON[i].background);
-                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/'+parseJSON[i].screenshot);
-                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/pochette/'+parseJSON[i].image);
+                            fs.unlinkSync('./games/backgrounds/'+parseJSON[i].id+'/'+parseJSON[i].background.split('/').pop());
+                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/'+parseJSON[i].screenshot.split('/').pop());
+                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/pochette/'+parseJSON[i].image.split('/').pop());
 
-                            fs.rmdirSync('./games/background/'+parseJSON[i].id+'/');
+                            fs.rmdirSync('./games/backgrounds/'+parseJSON[i].id+'/');
                             fs.rmdirSync('./games/images/'+parseJSON[i].id+'/pochette/');
                             fs.rmdirSync('./games/images/'+parseJSON[i].id+'/');
-                        } catch(e) {}
+                        } catch(e) {
+                            console.log(e);
+                        }
                     }
                 }
 
@@ -410,6 +412,8 @@ jQuery(function($){
     });
 
     $(document).on('click', '#popup #ok', function() {
-        loadingEnd('popup');
+        loadingEnd('popup', function() {
+            $("#init").fadeIn(400);
+        });
     });
 });

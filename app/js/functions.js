@@ -289,7 +289,9 @@ function changeHorloge() {
 }
 
 function popup(message) {
-    loading('popup', message);
+    $("#init").fadeOut(400, function() {
+        loading('popup', message);
+    });
 }
 
 function loading(type, message, callback) {
@@ -496,24 +498,32 @@ function resParams() {
     $("#background_jeu").attr('src', '');
     $("#screenshot_jeu").attr('src', '');
 
-    var list = $.parseJSON(file.readFileSync('./games/gameapp.json'));
-    list.sort(sortByTitle);
+    var json = file.readFileSync('./games/gameapp.json');
+    if(json === ']') {
+        fs.writeFileSync('./games/gameapp.json', '[]');
+        $('#game_list').html('');
+    } else if(json === '[]') {
+        $('#game_list').html('');
+    } else if(json !== '[]') {
+        var list = $.parseJSON(json);
+        list.sort(sortByTitle);
 
-    $('#game_list').html('');
-    for(var i = 0; i < list.length; i++) {
-        $titre = $('<div/>').addClass('title').html(list[i].titre);
+        $('#game_list').html('');
+        for(var i = 0; i < list.length; i++) {
+            $titre = $('<div/>').addClass('title').html(list[i].titre);
 
-        $edit = $('<img/>').addClass('edit').attr('id_jeu', list[i].id).attr('src', 'css/images/edit.png');
-        $suppr = $('<img/>').addClass('del').attr('id_jeu', list[i].id).attr('src', 'css/images/supprimer.png');
-        $actions = $('<div/>').addClass('actions').append($edit).append($suppr);
+            $edit = $('<img/>').addClass('edit').attr('id_jeu', list[i].id).attr('src', 'css/images/edit.png');
+            $suppr = $('<img/>').addClass('del').attr('id_jeu', list[i].id).attr('src', 'css/images/supprimer.png');
+            $actions = $('<div/>').addClass('actions').append($edit).append($suppr);
 
-        $bottom = $('<div/>').addClass('bottom').append($titre).append($actions);
+            $bottom = $('<div/>').addClass('bottom').append($titre).append($actions);
 
-        $pochette = $('<img/>').attr('src', list[i].image).addClass('pochette');
+            $pochette = $('<img/>').attr('src', list[i].image).addClass('pochette');
 
-        $game = $('<div/>').addClass('game').attr('id', list[i].id).append($pochette).append($bottom);
+            $game = $('<div/>').addClass('game').attr('id', list[i].id).append($pochette).append($bottom);
 
-        $('#game_list').append($game);
+            $('#game_list').append($game);
+        }
     }
 }
 
