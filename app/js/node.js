@@ -1,6 +1,8 @@
-window.ondragover = function(e) {e.preventDefault(); return false; }
-window.ondrop = function(e) {e.preventDefault(); return false; }
-
-var execFile = require('child_process').execFile, child;
-var path = require('path');
+var fs = require('fs');
+var request = require('request');
+var file = require('read-file');
+var WindowManager = require('node-webkit-window-manager').windowManager;
 var gui = require('nw.gui');
+var execFile = require('child_process').execFile, child;
+var http = require('http');
+var dns = require('dns');

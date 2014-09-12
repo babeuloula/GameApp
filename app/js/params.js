@@ -1,323 +1,415 @@
 jQuery(function($){
-    var api = "http://nex12sz:GT4!V2cT@ws.jeuxvideo.com/";
-    $('html *').not(':has(input), :has(textarea)').not('input, textarea').disableSelection();
+    var json = $.parseJSON(file.readFileSync('./games/gameapp.json'));
+    json.sort(sortByTitle);
 
-    $("#addGame").button({icons: {primary: "ui-icon-plus"}});
-    $("#addImage").button({icons: {primary: "ui-icon-image"}});
+    for(var i = 0; i < json.length; i++) {
+        $titre = $('<div/>').addClass('title').html(json[i].titre);
 
-    $(".favoris").change(function() {
-        if($(this).is(':checked')) {
-            $.ajax({
-                url: "ajax/update_favoris.php",
-                type: "post",
-                data: "etat=1&id="+$(this).val(),
-                success: function(response) {
-                    $("#errors").html(response);
-                }
-            });
+        $edit = $('<img/>').addClass('edit').attr('id_jeu', json[i].id).attr('src', 'css/images/edit.png');
+        $suppr = $('<img/>').addClass('del').attr('id_jeu', json[i].id).attr('src', 'css/images/supprimer.png');
+        $actions = $('<div/>').addClass('actions').append($edit).append($suppr);
+
+        $bottom = $('<div/>').addClass('bottom').append($titre).append($actions);
+
+        $pochette = $('<img/>').attr('src', json[i].image).addClass('pochette');
+
+        $game = $('<div/>').addClass('game').attr('id', json[i].id).append($pochette).append($bottom);
+
+        $('#game_list').append($game);
+    }
+
+    $(document).on('click', '#game_add_btn', function() {
+        $("#select_game").fadeTo(0, 1);
+        $("#enregsitrer_jeu").show();
+        $("#modifier_jeu").hide();
+
+        if($.trim($('#game_title').val()) === '') {
+            popup('Vous devez rentrer le nom d\'un jeu');
         } else {
-            $.ajax({
-                url: "ajax/update_favoris.php",
-                type: "post",
-                data: "etat=0&id="+$(this).val(),
-                success: function(response) {
-                    $("#errors").html(response);
-                }
-            });
-        }
-    });
+            dns.resolve('http://www.babeuloula.fr', function(err) {
+                if (err) {
+                    // Connecté
+                    loading('scrap', 'Chargement des jeux en cours');
 
+                    request('http://nex12sz:GT4!V2cT@ws.jeuxvideo.com/search_n/'+$.trim($('#game_title').val()), function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            if($(body).find('res_machine').length === 0) {
+                                loadingEnd('scrap', function() {
+                                    popup('Aucun jeux ne correspond a votre recherche');
+                                });
+                            } else {
+                                var found = false;
 
-    /**
-     * Ajouter un jeu
-     */
-    $("#addGame").click(function() {
-        $("#dialogAddGame").dialog({
-            title: "Ajouter un jeu",
-            modal: true,
-            closeOnEscape: false,
-            resizable: false,
-            width: 280,
-            buttons: {
-                Ajouter: function() {
-                    $("#dialogAddGame #titre_game, #dialogAddGame #chemin_game").removeClass("invalid");
-                    var valid = true;
-                    var message = "";
-                    var background = $("#dialogAddGame #background_game").val().split('.').pop();
-                    var tete = $("#dialogAddGame #tete_game").val().split('.').pop();
+                                $(body).find('res_machine').each(function() {
+                                    if($(this).children('id_machine').text() === $("#game_platforme").val()) {
+                                        found = true;
+                                        var first = true;
+                                        $("#select_game").html('');
 
-                    if($.trim($("#dialogAddGame #titre_game").val()) == "") {
-                        $("#dialogAddGame #titre_game").addClass("invalid");
-                        message+= "Merci de rentrer le titre du jeu<br>";
-                        valid = false;
-                    }
+                                        $(this).children('res_jeux').children('jeu').each(function() {
+                                            var id = $(this).children('id_jeu').html();
+                                            var titre = $(this).children('nom_jeu').html().replace('<!--[CDATA[', '').replace(']]-->', '');
 
-                    if($.trim($("#dialogAddGame #chemin_game").val()) == "") {
-                        $("#dialogAddGame #chemin_game").addClass("invalid");
-                        message+= "Merci de rentrer le chemin d'accès du jeu<br>";
-                        valid = false;
-                    }
+                                            $("#select_game").append($('<option/>').val(id).html(titre));
 
-                    if($.trim($("#dialogAddGame #background_game").val()) == "") {
-                        $("#dialogAddGame #background_game").addClass("invalid");
-                        message+= "Veuillez sélectionner un background<br>";
-                        valid = false;
-                    } else if(background.toLowerCase() != "jpg" && background.toLowerCase() != "jpeg" && background.toLowerCase() != "png") {
-                        message+= "Formats autorisés (*.jpg, *.jpeg ou *.png)<br>";
-                        $("#dialogAddGame #background_game").addClass("invalid");
-                        valid = false;
-                    }
+                                            if(first) {
+                                                first = false;
+                                                getGameInfos(id, function(infos) {
+                                                    $("#id_jeu").val(infos.id);
+                                                    $("#titre_jeu").val(infos.titre);
+                                                    $("#type_jeu").val(infos.type);
+                                                    $("#editeur_jeu").val(infos.editeur);
+                                                    $("#developpeur_jeu").val(infos.developpeur);
+                                                    $("#sortie_jeu").val(infos.sortie);
+                                                    $("#classification_jeu").val(infos.classification);
+                                                    $("#descriptif_jeu").val(infos.descriptif);
 
-                    if($.trim($("#dialogAddGame #tete_game").val()) == "") {
-                        message+= "Veuillez sélectionner une miniature<br>";
-                        popup("Erreur", "Veuillez sélectionner une image", "alert", false);
-                        $("#dialogAddGame #tete_game").addClass("invalid");
-                        valid = false;
-                    } else if(tete.toLowerCase() != "jpg" && tete.toLowerCase() != "jpeg" && tete.toLowerCase() != "png") {
-                        message+= "Formats autorisés (*.jpg, *.jpeg ou *.png)<br>";
-                        $("#dialogAddGame #tete_game").addClass("invalid");
-                        valid = false;
-                    }
+                                                    $("#pochette_jeu").attr('src', infos.pochette);
+                                                    $("#background_jeu").attr('src', infos.background);
+                                                    $("#screenshot_jeu").attr('src', infos.screenshot);
 
-                    if(valid) {
-                        $("#dialogAddGame").dialog("close");
-                        $("#dialogAddGame").dialog("destroy");
-
-                        progressbar("Téléchargement des images en cours...<br/>Veuillez patienter");
-
-                        $("#dialogAddGame").upload("ajax/add_game.php", function(data) {
-                            $("#progressbarDialog").addClass("cache");
-                            $("#progressbarDialog").dialog("close");
-
-                            $("#crop").attr("src", data);
-
-                            var api = $.Jcrop('#crop');
-
-                            $("#DialCropUpload").dialog({
-                                title: "Création de la miniature",
-                                open: function(event, ui) {
-                                    progressbar("Chargement de l'outil de rognage en cours...<br/>Veuillez patienter");
-
-                                    $(".ui-dialog-titlebar-close").hide();
-
-                                    api.setImage(data, function() {
-                                        $("#progressbarDialog").addClass("cache");
-                                        $("#progressbarDialog").dialog("close");
-
-                                        api.setOptions({
-                                            aspectRatio: 350 / 200,
-                                            bgColor: 'black',
-                                            bgOpacity: .4,
-                                            keySupport: false,
-                                            onSelect: updateCoords,
-                                            onChange: updateCoords,
-                                            setSelect: [0, 0, 350, 200]
+                                                    loadingEnd('scrap', function() {
+                                                        $("#init").fadeOut(400, function() {
+                                                            $("#popup_game").fadeIn(400);
+                                                        });
+                                                    });
+                                                });
+                                            }
                                         });
-                                        api.focus();
-                                    });
-                                },
-                                closeOnEscape: false,
-                                resizable: false,
-                                width: 800,
-                                height: 600,
-                                modal: true,
-                                buttons: {
-                                    "Terminer": function() {
-                                        if(checkCoords()) {
-                                            $.ajax({
-                                                url: "ajax/crop_image.php",
-                                                type: 'post',
-                                                data: $("#formCrop").serialize(),
-                                                success: function(response) {
-                                                    api.destroy();
-
-                                                    $("#DialCropUpload").dialog("close");
-                                                    $("#DialCropUpload").dialog("destroy");
-
-                                                    $("#crop").attr("src", "");
-                                                    $("#formCrop input").val("");
-                                                    $("#dialogAddGame #titre_game, #dialogAddGame #chemin_game, #dialogAddGame #background_game, #dialogAddGame #tete_game").val("");
-
-                                                    popup("Succès", "Le jeu a été ajouté avec succès", "ok", false);
-
-                                                    $("tbody").html(response);
-                                                }
-                                            });
-                                        }
-                                    }
-                                }
-                            });
-                        });
-                    } else {
-                        popup("Erreur", message, "alert", false);
-                    }
-                },
-                Annuler: function() {
-                    $("input").removeClass("invalid");
-
-                    $("#dialogAddGame").dialog("close");
-                    $("#dialogAddGame").dialog("destroy");
-
-                    $("#dialogAddGame #titre_game, #dialogAddGame #chemin_game, #dialogAddGame #background_game, #dialogAddGame #tete_game").val("");
-                }
-            }
-        });
-    });
-
-
-    /**
-     * Editer un jeu
-     */
-    $(document).on('click', '.edit', function() {
-        var id = $(this).attr('id_game');
-
-        $.ajax({
-            url: "ajax/get_info.php",
-            type: "post",
-            data: "id="+id,
-            success: function(response) {
-                var json = $.parseJSON(response);
-
-                $("#dialogEditGame #id_game").val(id);
-                $("#dialogEditGame #titre_game").val(json.titre);
-                $("#dialogEditGame #chemin_game").val(json.chemin);
-                $("#dialogEditGame #description_game").val(json.description);
-                $("#dialogEditGame #note_game").val(json.note);
-                $("#dialogEditGame #editeur_game").val(json.editeur);
-                $("#dialogEditGame #developpeur_game").val(json.developpeur);
-                $("#dialogEditGame #type_game").val(json.type);
-                $("#dialogEditGame #sortie_game").val(json.sortie);
-                $("#dialogEditGame #classification_game").val(json.classification);
-                $("#dialogEditGame #pochette_game").val(json.pochette);
-
-                var screeshots = json.screeshots.split('#');
-                $("#dialogEditGame #images input").val(screeshots[0]);
-                for(var i = 1; i < screeshots.length; i++) {
-                    $("#dialogEditGame #images").append('<input type="text" name="screenshots_game[]" value="'+screeshots[i]+'" class="mt5 w520 left" placeholder="http://image.jeuxvideo.com/images/pc/d/a/day-of-the-tentacle-pc-066.jpg"> <img src="img/del.png" alt="supprimer" title="Supprimer l\'image" class="delImage right mt5">');
-                }
-
-                $("#dialogEditGame").dialog({
-                    title: "Editer un jeu",
-                    modal: true,
-                    closeOnEscape: false,
-                    resizable: false,
-                    width: 590,
-                    height: 590,
-                    buttons: {
-                        Modifier: function() {
-                            $("input, textarea").removeClass('invalid');
-                            var valid = true;
-                            var message = "";
-
-                            if($.trim($("#dialogEditGame #titre_game").val()) == "") {
-                                $("#dialogEditGame #titre_game").addClass("invalid");
-                                message+= "Merci de rentrer le titre du jeu<br>";
-                                valid = false;
-                            }
-
-                            if($.trim($("#dialogEditGame #chemin_game").val()) == "") {
-                                $("#dialogEditGame #chemin_game").addClass("invalid");
-                                message+= "Merci de rentrer le chemin d'accès du jeu<br>";
-                                valid = false;
-                            }
-
-                            if(valid) {
-                                progressbar("Téléchargement des images en cours...<br/>Veuillez patienter");
-
-                                $.ajax({
-                                    url: "ajax/edit_game.php",
-                                    type: "post",
-                                    data: $("#dialogEditGame form").serialize(),
-                                    success: function(response) {
-                                        $("#progressbarDialog").addClass("cache");
-                                        $("#progressbarDialog").dialog("close");
-
-                                        $("input, textarea").removeClass('invalid').val('');
-                                        $("#images").html('<input type="text" name="screenshots_game[]" class="mt5 w520 left" placeholder="http://image.jeuxvideo.com/images/pc/d/a/day-of-the-tentacle-pc-066.jpg"> <img src="img/del.png" alt="supprimer" title="Supprimer l\'image" class="delImage right mt5">');
-
-                                        popup("Succès", "Le jeu a été modifié avec succès", "ok", false);
-
-                                        $("tbody").html(response);
                                     }
                                 });
 
-                                $("#dialogEditGame").dialog("close");
-                                $("#dialogEditGame").dialog("destroy");
-                            } else {
-                                popup("Erreur", message, "alert", false);
+                                if(!found) {
+                                    loadingEnd('scrap', function() {
+                                        popup('Aucun jeux ne correspond a votre recherche');
+                                    });
+                                }
+
+                                $('#select_game').change(function() {
+                                    loading('scrap', 'Chargement des informations du jeu en cours');
+
+                                    getGameInfos($(this).val(), function(infos) {
+                                        $("#id_jeu").val(infos.id);
+                                        $("#titre_jeu").val(infos.titre);
+                                        $("#type_jeu").val(infos.type);
+                                        $("#editeur_jeu").val(infos.editeur);
+                                        $("#developpeur_jeu").val(infos.developpeur);
+                                        $("#sortie_jeu").val(infos.sortie);
+                                        $("#classification_jeu").val(infos.classification);
+                                        $("#descriptif_jeu").val(infos.descriptif);
+
+                                        $("#pochette_jeu").attr('src', infos.pochette);
+                                        $("#background_jeu").attr('src', infos.background);
+                                        $("#screenshot_jeu").attr('src', infos.screenshot);
+
+                                        loadingEnd('scrap', function() {
+                                            $("#popup_game").fadeIn(400);
+                                        });
+                                    });
+                                });
                             }
-                        },
-                        Annuler: function() {
-                            $("#dialogEditGame").dialog("close");
-                            $("#dialogEditGame").dialog("destroy");
-
-                            $("input, textarea").removeClass('invalid').val('');
-                            $("#images").html('<input type="text" name="screenshots_game[]" class="mt5 w520 left" placeholder="http://image.jeuxvideo.com/images/pc/d/a/day-of-the-tentacle-pc-066.jpg"> <img src="img/del.png" alt="supprimer" title="Supprimer l\'image" class="delImage right mt5">');
                         }
-                    }
-                });
-            }
-        });
-    });
-
-
-    /**
-     * Ajouter une image dans la fiche du jeu
-     */
-    $(document).on('click', '#addImage', function(e) {
-        e.preventDefault();
-        $("#images").append('<input type="text" name="screenshots_game[]" class="mt5 w520 left" placeholder="http://image.jeuxvideo.com/images/pc/d/a/day-of-the-tentacle-pc-066.jpg"> <img src="img/del.png" alt="supprimer" title="Supprimer l\'image" class="delImage right mt5">');
-    });
-
-
-    /**
-     * Supprimer une image
-     */
-    $(document).on('click', '.delImage', function() {
-        var i = 0;
-        $(".delImage").each(function() {
-            i++;
-        });
-
-        if(i > 1) {
-            $(this).prev().remove();
-            $(this).remove();
+                    });
+                } else {
+                    // Non connecté
+                    popup("Il vous faut Internet pour ajouter un jeu");
+                }
+            });
         }
     });
 
+    $(document).on('click', '#annuler_jeu', function() {
+        $("#popup_game").fadeOut(400, function() {
+            $("#id_jeu").val('');
+            $("#titre_jeu").val('');
+            $("#type_jeu").val('');
+            $("#editeur_jeu").val('');
+            $("#developpeur_jeu").val('');
+            $("#sortie_jeu").val('');
+            $("#classification_jeu").val('');
+            $("#emplacement_jeu").val('');
+            $("#descriptif_jeu").val('');
 
-    /**
-     * Supprimer un jeu
-     */
-    $(document).on('click', '.del', function() {
-        var id = $(this).attr('id_game');
-        var image = $(this).attr('image');
+            $("#pochette_jeu").attr('src', '');
+            $("#background_jeu").attr('src', '');
+            $("#screenshot_jeu").attr('src', '');
 
-        $("#DialConfirmation").dialog({
-            title: "Supprimer un jeu",
-            modal: true,
-            closeOnEscape: false,
-            resizable: false,
-            width: 280,
-            buttons: {
-                Oui: function() {
-                    $("#DialConfirmation").dialog("close");
-                    $("#DialConfirmation").dialog("destroy");
-
-                    $.ajax({
-                        url: "ajax/del_game.php",
-                        type: "post",
-                        data: "id="+id+"&image="+image,
-                        success: function(response) {
-                            $("tbody").html(response);
-                        }
-                    });
-                },
-                Non: function() {
-                    $("#DialConfirmation").dialog("close");
-                    $("#DialConfirmation").dialog("destroy");
-                }
-            }
+            $("#init").fadeIn(400);
         });
+    });
+
+    $(document).on('click', '#enregsitrer_jeu, #modifier_jeu', function() {
+        var id = $(this).attr('id').replace('#', '');
+        var valid = true;
+        var message = '';
+
+        if($.trim($("#titre_jeu").val()) === '') {
+            valid = false;
+            message+= "Vous devez rentrer le nom du jeu<br>";
+        }
+
+        if($.trim($("#emplacement_jeu").val()) === '') {
+            valid = false;
+            message+= "Vous devez rentrer l'emplacement du jeu<br>";
+        }
+
+        if(valid) {
+            if(id === "enregsitrer_jeu") {
+                $("#popup_game").fadeOut(400, function() {
+                    loading('download', 'Enregistrement du jeu en cours');
+                    var json = file.readFileSync('./games/gameapp.json');
+
+                    var new_game;
+
+                    if(json === '[]') {
+                        new_game = '{' +
+                                        '"id": '+$("#id_jeu").val()+','+
+                                        '"image": "'+'../games/images/'+$("#id_jeu").val()+'/pochette/'+$("#pochette_jeu").attr('src').split('/').pop()+'",'+
+                                        '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
+                                        '"background": "'+'../games/backgrounds/'+$("#id_jeu").val()+'/'+$("#background_jeu").attr('src').split('/').pop()+'",'+
+                                        '"screenshot": "'+'../games/images/'+$("#id_jeu").val()+'/'+$("#screenshot_jeu").attr('src').split('/').pop()+'",'+
+                                        '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
+                                        '"type": "'+addslashes($("#type_jeu").val())+'",'+
+                                        '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
+                                        '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
+                                        '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
+                                        '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
+                                        '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
+                                    '}';
+                    } else {
+                        new_game = ',{' +
+                                        '"id": '+$("#id_jeu").val()+','+
+                                        '"image": "'+'../games/images/'+$("#id_jeu").val()+'/pochette/'+$("#pochette_jeu").attr('src').split('/').pop()+'",'+
+                                        '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
+                                        '"background": "'+'../games/backgrounds/'+$("#id_jeu").val()+'/'+$("#background_jeu").attr('src').split('/').pop()+'",'+
+                                        '"screenshot": "'+'../games/images/'+$("#id_jeu").val()+'/'+$("#screenshot_jeu").attr('src').split('/').pop()+'",'+
+                                        '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
+                                        '"type": "'+addslashes($("#type_jeu").val())+'",'+
+                                        '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
+                                        '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
+                                        '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
+                                        '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
+                                        '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
+                                    '}';
+                    }
+
+
+                    json = json.replace(']', '') + new_game + ']';
+
+                    fs.writeFileSync('games/gameapp.json', json);
+
+                    if(!fs.existsSync('games/backgrounds/'+$("#id_jeu").val()+'/')) {
+                        fs.mkdirSync('games/backgrounds/'+$("#id_jeu").val()+'/');
+                    }
+
+                    if(!fs.existsSync('games/images/'+$("#id_jeu").val()+'/')) {
+                        fs.mkdirSync('games/images/'+$("#id_jeu").val()+'/');
+                    }
+
+                    if(!fs.existsSync('games/images/'+$("#id_jeu").val()+'/pochette/')) {
+                        fs.mkdirSync('games/images/'+$("#id_jeu").val()+'/pochette/');
+                    }
+
+                    var dlBackground = false;
+                    var dlScreenshot = false;
+                    var dlPochette   = false;
+
+                    if($("#background_jeu").attr('src') === 'css/images/gameapp.jpg') {
+                        fs.createReadStream('app/css/images/gameapp.jpg').pipe(fs.createWriteStream('games/backgrounds/'+$("#id_jeu").val()+'/gameapp.jpg'));
+                        dlBackground = true;
+                    } else {
+                        downloadImage('games/backgrounds/'+$("#id_jeu").val()+'/', $("#background_jeu").attr('src'), function() {
+                            dlBackground = true;
+                        });
+                    }
+
+                    if($("#screenshot_jeu").attr('src') === 'css/images/gameapp.jpg') {
+                        fs.createReadStream('app/css/images/gameapp.jpg').pipe(fs.createWriteStream('games/images/'+$("#id_jeu").val()+'/gameapp.jpg'));
+                        dlScreenshot = true;
+                    } else {
+                        downloadImage('games/images/'+$("#id_jeu").val()+'/', $("#screenshot_jeu").attr('src'), function() {
+                            dlScreenshot = true;
+                        });
+                    }
+
+                    if($("#pochette_jeu").attr('src') === 'css/images/no_pochette.jpg') {
+                        fs.createReadStream('app/css/images/no_pochette.jpg').pipe(fs.createWriteStream('games/images/'+$("#id_jeu").val()+'/pochette/no_pochette.jpg'));
+                        dlPochette = true;
+                    } else {
+                        downloadImage('games/images/'+$("#id_jeu").val()+'/pochette/', $("#pochette_jeu").attr('src'), function() {
+                            dlPochette = true;
+                        });
+                    }
+
+                    var checkClose = setInterval(function() {
+                        if(dlBackground && dlScreenshot && dlPochette) {
+                            clearInterval(checkClose);
+
+                            resParams();
+                            loadingEnd('download', function() {
+                                $("#init").fadeIn(400);
+                            });
+                        }
+                    }, 100);
+
+
+                });
+            } else {
+                $("#popup_game").fadeOut(400, function() {
+                    loading('download', 'Enregistrement du jeu en cours');
+
+                    var json = file.readFileSync('./games/gameapp.json');
+                    var parseJSON = $.parseJSON(json);
+                    var final = '[';
+
+                    for(var i = 0; i < parseJSON.length; i++) {
+                        if(parseJSON[i].id !== parseInt($("#id_jeu").val(), 10)) {
+                            final+= '{' +
+                                        '"id": '+parseJSON[i].id+','+
+                                        '"image": "'+parseJSON[i].image+'",'+
+                                        '"path": "'+addslashes(parseJSON[i].path)+'",'+
+                                        '"background": "'+parseJSON[i].background+'",'+
+                                        '"screenshot": "'+parseJSON[i].screenshot+'",'+
+                                        '"titre": "'+addslashes(parseJSON[i].titre)+'",'+
+                                        '"type": "'+addslashes(parseJSON[i].type)+'",'+
+                                        '"editeur": "'+addslashes(parseJSON[i].editeur)+'",'+
+                                        '"developpeur": "'+addslashes(parseJSON[i].developpeur)+'",'+
+                                        '"sortie": "'+addslashes(parseJSON[i].sortie)+'",'+
+                                        '"classification": "'+addslashes(parseJSON[i].classification)+'",'+
+                                        '"descriptif": "'+addslashes(parseJSON[i].descriptif)+'"'+
+                                   '},';
+                        }
+                    }
+
+                    final+= '{' +
+                                '"id": '+$("#id_jeu").val()+','+
+                                '"image": "'+$("#pochette_jeu").attr('src')+'",'+
+                                '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
+                                '"background": "'+$("#background_jeu").attr('src')+'",'+
+                                '"screenshot": "'+$("#screenshot_jeu").attr('src')+'",'+
+                                '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
+                                '"type": "'+addslashes($("#type_jeu").val())+'",'+
+                                '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
+                                '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
+                                '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
+                                '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
+                                '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
+                           '}]';
+
+                    fs.writeFileSync('games/gameapp.json', final);
+
+                    resParams();
+                    loadingEnd('download', function() {
+                        $("#init").fadeIn(400);
+                    });
+                });
+            }
+        } else {
+            popup(message);
+        }
+    });
+
+    $(document).on('click', '.edit', function() {
+        var that = $(this);
+
+        loading('scrap', 'Chargement des informations du jeu en cours');
+
+        $("#enregsitrer_jeu").hide();
+        $("#modifier_jeu").show();
+        $("#select_game").fadeTo(0, 0);
+
+        var json = $.parseJSON(file.readFileSync('./games/gameapp.json'));
+
+        for(var i = 0; i < json.length; i++) {
+            if(json[i].id === parseInt(that.attr('id_jeu'), 10)) {
+                $("#id_jeu").val(json[i].id);
+                $("#titre_jeu").val(json[i].titre);
+                $("#type_jeu").val(json[i].type);
+                $("#editeur_jeu").val(json[i].editeur);
+                $("#developpeur_jeu").val(json[i].developpeur);
+                $("#sortie_jeu").val(json[i].sortie);
+                $("#classification_jeu").val(json[i].classification);
+                $("#emplacement_jeu").val(json[i].path);
+                $("#descriptif_jeu").val(json[i].descriptif);
+
+                $("#pochette_jeu").attr('src', json[i].image);
+                $("#background_jeu").attr('src', json[i].background);
+                $("#screenshot_jeu").attr('src', json[i].screenshot);
+
+                loadingEnd('scrap', function() {
+                    $("#init").fadeOut(400, function() {
+                        $("#popup_game").fadeIn(400);
+                    });
+                });
+            }
+        }
+
+    });
+
+    $(document).on('click', '.del', function() {
+        var that = $(this);
+
+        $("#init").fadeOut(400, function() {
+            loading('confirmation', 'Êtes-vous sûr de vouloir supprimer le jeu ?');
+
+            $(document).on('click', "#delGame #oui", function() {
+                loadingEnd('confirmation');
+
+                var json = file.readFileSync('./games/gameapp.json');
+                var parseJSON = $.parseJSON(json);
+                var final = '[';
+
+                for(var i = 0; i < parseJSON.length; i++) {
+                    if(parseJSON[i].id !== parseInt(that.attr('id_jeu'), 10)) {
+                        final+= '{' +
+                            '"id": '+parseJSON[i].id+','+
+                            '"image": "'+parseJSON[i].image+'",'+
+                            '"path": "'+addslashes(parseJSON[i].path)+'",'+
+                            '"background": "'+parseJSON[i].background+'",'+
+                            '"screenshot": "'+parseJSON[i].screenshot+'",'+
+                            '"titre": "'+addslashes(parseJSON[i].titre)+'",'+
+                            '"type": "'+addslashes(parseJSON[i].type)+'",'+
+                            '"editeur": "'+addslashes(parseJSON[i].editeur)+'",'+
+                            '"developpeur": "'+addslashes(parseJSON[i].developpeur)+'",'+
+                            '"sortie": "'+addslashes(parseJSON[i].sortie)+'",'+
+                            '"classification": "'+addslashes(parseJSON[i].classification)+'",'+
+                            '"descriptif": "'+addslashes(parseJSON[i].descriptif)+'"'+
+                            '},';
+                    } else {
+                        try {
+                            fs.unlinkSync('./games/background/'+parseJSON[i].id+'/'+parseJSON[i].background);
+                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/'+parseJSON[i].screenshot);
+                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/pochette/'+parseJSON[i].image);
+
+                            fs.rmdirSync('./games/background/'+parseJSON[i].id+'/');
+                            fs.rmdirSync('./games/images/'+parseJSON[i].id+'/pochette/');
+                            fs.rmdirSync('./games/images/'+parseJSON[i].id+'/');
+                        } catch(e) {}
+                    }
+                }
+
+                final = final.slice(0, -1);
+                final+= "]";
+
+                fs.writeFileSync('games/gameapp.json', final);
+
+                resParams();
+                loadingEnd('download', function() {
+                    $("#init").fadeIn(400);
+                });
+            });
+        });
+
+
+
+        $(document).on('click', "#delGame #non", function() {
+            loadingEnd('confirmation', function() {
+                $("#init").fadeIn(400);
+            });
+        });
+    });
+
+    $(document).on('click', '#popup #ok', function() {
+        loadingEnd('popup');
     });
 });
