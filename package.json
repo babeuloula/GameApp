@@ -8,7 +8,7 @@
     "url": "https://github.com/babeuloula/GameApp.git"
   },
   "window": {
-    "toolbar": false,
+    "toolbar": true,
     "width": 1280,
     "height": 720,
     "min_width": 1280,

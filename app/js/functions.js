@@ -19,9 +19,12 @@ function init() {
 
 
     if(json !== '[]') {
+        initCoverFlow();
         coverFlow();
-        getInfos(0, function() {
+        getInfos(function() {
             $("#overlay").fadeTo(400, 0, function() {
+                $('#List').sly('reload');
+
                 var heightImage = Math.round($("#gameInfo").height() - 100);
                 $('#gameInfo #containerInfo .image').height(heightImage);
                 var heightDescriptif = Math.round(heightImage - ($("#gameInfo .infos").height() + 15));
@@ -49,8 +52,8 @@ function init() {
 }
 
 function reload() {
-    coverFlow();
-    $('#containerList').coverflow().to(current);
+    $("#List li, #List li img").height($("#gameList").height() - 50);
+    $('#List').sly('reload');
 
     var top = (parseInt($("#gameInfo").css('top')) - 45) / 2;
     var rightHorloge = (top * 2) + 45;
@@ -81,38 +84,68 @@ function reload() {
     }
 }
 
-function coverFlow() {
+function initCoverFlow() {
     var playlist = $.parseJSON(file.readFileSync('./games/gameapp.json'));
     playlist.sort(sortByTitle);
 
-    $('#containerList').coverflow({
-        playlist: playlist,
-        width: $(window).width(),
-        height: $("#gameList").height(),
-        backgroundopacity: 0,
-        coverwidth: ($(window).width() / 100) * 8,
-        mousewheel: false
+    for(var p = 0; p < playlist.length; p++) {
+        $img = $('<img/>').attr('src', playlist[p].image);
+        $li = $('<li/>').append($img)
+                        .attr('background', playlist[p].background)
+                        .attr('screenshot', playlist[p].screenshot)
+                        .attr('titre', playlist[p].titre)
+                        .attr('editeur', playlist[p].editeur)
+                        .attr('developpeur', playlist[p].developpeur)
+                        .attr('type', playlist[p].type)
+                        .attr('sortie', playlist[p].sortie)
+                        .attr('classification', playlist[p].classification)
+                        .attr('descriptif', playlist[p].descriptif);
+
+        $("#List ul").append($li);
+    }
+}
+
+function coverFlow() {
+    $("#List li, #List li img").height($("#gameList").height() - 50);
+
+    $('#List').sly({
+        horizontal: 1,
+        itemNav: 'forceCentered',
+        smart: 1,
+        activateMiddle: 1,
+        activateOn: 'click',
+        speed: 300,
+        elasticBounds: 1,
+        easing: 'swing',
+        dragHandle: 1,
+        dynamicHandle: 1
     });
 }
 
-function getInfos(id, callback) {
-    var game = $.parseJSON(file.readFileSync('./games/gameapp.json'));
-    game.sort(sortByTitle);
+function getInfos(callback) {
+    /*var game = $.parseJSON(file.readFileSync('./games/gameapp.json'));
+    game.sort(sortByTitle);*/
 
-    getColor(game[id].background, function(color) {
+    $game = $("#gameList #containerList #List ul li.active");
+
+    console.log($game);
+
+    getColor($game.attr('background'), function(color) {
         $('#gameInfo #containerInfo h2').css('color', color);
 
-        $("#background").css('background-image', 'url("'+game[id].background+'")');
-        $('#gameInfo #containerInfo .image').attr('src', game[id].screenshot);
-        $('#gameInfo #containerInfo .infos h1').html(game[id].titre);
-        $('#gameInfo #containerInfo .infos .editeur').html(game[id].editeur);
-        $('#gameInfo #containerInfo .infos .developpeur').html(game[id].developpeur);
-        $('#gameInfo #containerInfo .infos .type').html(game[id].type);
-        $('#gameInfo #containerInfo .infos .sortie').html(game[id].sortie);
-        $('#gameInfo #containerInfo .infos .classification').html(game[id].classification);
-        $('#gameInfo #containerInfo .descriptif p').html(game[id].descriptif);
+        $("#background").css('background-image', 'url("'+$game.attr('background')+'")');
+        $('#gameInfo #containerInfo .image').attr('src', $game.attr('screenshot'));
+        $('#gameInfo #containerInfo .infos h1').html($game.attr('titre'));
+        $('#gameInfo #containerInfo .infos .editeur').html($game.attr('editeur'));
+        $('#gameInfo #containerInfo .infos .developpeur').html($game.attr('developpeur'));
+        $('#gameInfo #containerInfo .infos .type').html($game.attr('type'));
+        $('#gameInfo #containerInfo .infos .sortie').html($game.attr('sortie'));
+        $('#gameInfo #containerInfo .infos .classification').html($game.attr('classification'));
+        $('#gameInfo #containerInfo .descriptif p').html($game.attr('descriptif'));
 
-        callback(true);
+        if(callback !== undefined) {
+            callback(true);
+        }
     });
 }
 
@@ -192,7 +225,7 @@ if(fs.existsSync('./games/gameapp.json')) {
         total = 0;
     }
 }
-function actions_keyboard(keyCode) {
+function actions_keyboard_keyup(keyCode) {
     switch(keyCode) {
         // Echap 27
         case 27:
@@ -209,31 +242,29 @@ function actions_keyboard(keyCode) {
 
         // Gauche 37
         case 37:
-            $('#containerList').coverflow().left();
-
+            $('#List').sly('prev');
             if(current > 0) {
                 current = current - 1;
 
-                $("#background, #gameInfo #containerInfo").fadeTo(400, 0, function() {
-                    getInfos(current, function() {
-                        $("#background, #gameInfo #containerInfo").fadeTo(1000, 1);
-                    });
-                });
+                getInfos();
+
+                /*$("#background, #gameInfo #containerInfo").fadeTo(400, 0, function() {
+                    $("#background, #gameInfo #containerInfo").fadeTo(400, 1);
+                });*/
             }
             break;
 
         // Droite 39
         case 39:
-            $('#containerList').coverflow().right();
-
+            $('#List').sly('next');
             if(current < total - 1) {
                 current = current + 1;
 
-                $("#background, #gameInfo #containerInfo").fadeTo(400, 0, function() {
-                    getInfos(current, function() {
-                        $("#background, #gameInfo #containerInfo").fadeTo(1000, 1);
-                    });
-                });
+                getInfos();
+
+                /*$("#background, #gameInfo #containerInfo").fadeTo(400, 0, function() {
+                    $("#background, #gameInfo #containerInfo").fadeTo(400, 1);
+                });*/
             }
             break;
 
@@ -268,6 +299,18 @@ function actions_keyboard(keyCode) {
 
         // Backspace
         case 8:
+            break;
+    }
+}
+
+function actions_keyboard_keydown(keyCode) {
+    switch (keyCode) {
+        case 37:
+            //$('#List').sly('prev');
+            break;
+
+        case 39:
+            //$('#List').sly('next');
             break;
     }
 }
