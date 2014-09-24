@@ -21,7 +21,7 @@ function init() {
     if(json !== '[]') {
         initCoverFlow();
         coverFlow();
-        getInfos(function() {
+        getInfos(0, function() {
             $("#overlay").fadeTo(400, 0, function() {
                 $('#List').sly('reload');
 
@@ -122,15 +122,43 @@ function coverFlow() {
     });
 }
 
-function getInfos(callback) {
-    /*var game = $.parseJSON(file.readFileSync('./games/gameapp.json'));
-    game.sort(sortByTitle);*/
+function getInfos(id, callback) {
+    var game = $.parseJSON(file.readFileSync('./games/gameapp.json'));
+    game.sort(sortByTitle);
 
-    $game = $("#gameList #containerList #List ul li.active");
+    if(game[id].color === undefined) {
+        $('#gameInfo #containerInfo h2').css('color', '#9E8748');
+    } else {
+        $('#gameInfo #containerInfo h2').css('color', game[id].color);
+    }
 
-    console.log($game);
+    $("#background").css('background-image', 'url("'+game[id].background+'")');
+    $('#gameInfo #containerInfo .image').attr('src', game[id].screenshot);
+    $('#gameInfo #containerInfo .infos h1').html(game[id].titre);
+    $('#gameInfo #containerInfo .infos .editeur').html(game[id].editeur);
+    $('#gameInfo #containerInfo .infos .developpeur').html(game[id].developpeur);
+    $('#gameInfo #containerInfo .infos .type').html(game[id].type);
+    $('#gameInfo #containerInfo .infos .sortie').html(game[id].sortie);
+    $('#gameInfo #containerInfo .infos .classification').html(game[id].classification);
+    $('#gameInfo #containerInfo .descriptif p').html(game[id].descriptif);
 
-    getColor($game.attr('background'), function(color) {
+    $('#gameInfo #containerInfo .descriptif').marquee('destroy');
+
+    if($('#gameInfo #containerInfo .descriptif p').height() > $('#gameInfo #containerInfo .descriptif').height()) {
+        $('#gameInfo #containerInfo .descriptif').marquee({
+            duration: 5000,
+            gap: 25,
+            delayBeforeStart: 1000,
+            direction: 'up',
+            duplicated: true
+        });
+    }
+
+    if(callback !== undefined) {
+        callback(true);
+    }
+
+    /*getColor($game.attr('background'), function(color) {
         $('#gameInfo #containerInfo h2').css('color', color);
 
         $("#background").css('background-image', 'url("'+$game.attr('background')+'")');
@@ -146,7 +174,7 @@ function getInfos(callback) {
         if(callback !== undefined) {
             callback(true);
         }
-    });
+    });*/
 }
 
 function sortByTitle(a, b) {
@@ -246,11 +274,7 @@ function actions_keyboard_keyup(keyCode) {
             if(current > 0) {
                 current = current - 1;
 
-                getInfos();
-
-                /*$("#background, #gameInfo #containerInfo").fadeTo(400, 0, function() {
-                    $("#background, #gameInfo #containerInfo").fadeTo(400, 1);
-                });*/
+                getInfos(current);
             }
             break;
 
@@ -260,11 +284,7 @@ function actions_keyboard_keyup(keyCode) {
             if(current < total - 1) {
                 current = current + 1;
 
-                getInfos();
-
-                /*$("#background, #gameInfo #containerInfo").fadeTo(400, 0, function() {
-                    $("#background, #gameInfo #containerInfo").fadeTo(400, 1);
-                });*/
+                getInfos(current);
             }
             break;
 
@@ -503,7 +523,11 @@ function getGameInfos(id, callback) {
                                         infos.background = 'css/images/gameapp.jpg';
                                     }
 
-                                    callback(infos);
+                                    getColor(infos.background, function(color) {
+                                        infos.color = color;
+
+                                        callback(infos);
+                                    });
                                 }
                             });
                         }
