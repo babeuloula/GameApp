@@ -9,8 +9,9 @@ module.exports = function(grunt) {
         nodewebkit: {
             options: {
                 version: '0.10.2',
-                platforms: ['win'],
-                buildDir: './builds/'
+                platforms: ['win', 'osx'],
+                buildDir: './builds/',
+                macIcns: './gameapp.icns'
             },
             src: [
                 './package.json',
