@@ -157,7 +157,7 @@ p {
     left       : 0;
     right      : 0;
     border-top : solid 3px rgba(255, 255, 255, 0.25);
-    z-index: 150;
+    z-index: 15;
 }
 
 #gameList #containerList {
@@ -175,7 +175,8 @@ p {
     perspective-origin: 50% 50%;
     overflow: hidden;
     overflow-y: show;
-    margin-top: 25px;
+    padding-top: 20px;
+    padding-bottom: 25px;
 }
 
 #gameList #containerList #List ul {
@@ -203,7 +204,6 @@ p {
     background: #333;
     color: #ddd;
     text-align: center;
-    cursor: pointer;
     border-radius : 5px 5px 5px 5px;
     border        : solid 3px rgba(255, 255, 255, 0.25);
 }
@@ -217,7 +217,6 @@ p {
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
     transform: scale(1);
-    color: #fff;
 }
 
 #gameList #containerList #List ul li.active ~ li {

@@ -1,4 +1,5 @@
 function init() {
+    checkUpdate();
     changeHorloge();
 
     var top = (parseInt($("#gameInfo").css('top')) - 45) / 2;
@@ -51,8 +52,30 @@ function init() {
     }
 }
 
+function checkUpdate() {
+    request('https://raw.githubusercontent.com/babeuloula/GameApp/master/package.json', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var json = $.parseJSON(body);
+            var version = parseFloat(json.version);
+
+            var jsonActuelle = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            var versionAcutelle = parseFloat(jsonActuelle.version);
+
+            if(version > versionAcutelle) {
+                if(confirm('Une nouvelle version de GameApp est disponible.\r\n\r\nVoulez-vous la télécharger ?')) {
+                    if(process.platform === 'win32') {
+                        gui.Shell.openExternal('http://www.babeuloula.fr/fichiers/projets/gameapp-latest-win.zip');
+                    } else {
+                        gui.Shell.openExternal('http://www.babeuloula.fr/fichiers/projets/gameapp-latest-osx.zip');
+                    }
+                }
+            }
+        }
+    });
+}
+
 function reload() {
-    $("#List li, #List li img").height($("#gameList").height() - 50);
+    $("#List li, #List li img").height($("#gameList").height() - 45);
     $('#List').sly('reload');
 
     var top = (parseInt($("#gameInfo").css('top')) - 45) / 2;
@@ -106,14 +129,13 @@ function initCoverFlow() {
 }
 
 function coverFlow() {
-    $("#List li, #List li img").height($("#gameList").height() - 50);
+    $("#List li, #List li img").height($("#gameList").height() - 45);
 
     $('#List').sly({
         horizontal: 1,
         itemNav: 'forceCentered',
         smart: 1,
         activateMiddle: 1,
-        activateOn: 'click',
         speed: 300,
         elasticBounds: 1,
         easing: 'swing',
@@ -157,24 +179,6 @@ function getInfos(id, callback) {
     if(callback !== undefined) {
         callback(true);
     }
-
-    /*getColor($game.attr('background'), function(color) {
-        $('#gameInfo #containerInfo h2').css('color', color);
-
-        $("#background").css('background-image', 'url("'+$game.attr('background')+'")');
-        $('#gameInfo #containerInfo .image').attr('src', $game.attr('screenshot'));
-        $('#gameInfo #containerInfo .infos h1').html($game.attr('titre'));
-        $('#gameInfo #containerInfo .infos .editeur').html($game.attr('editeur'));
-        $('#gameInfo #containerInfo .infos .developpeur').html($game.attr('developpeur'));
-        $('#gameInfo #containerInfo .infos .type').html($game.attr('type'));
-        $('#gameInfo #containerInfo .infos .sortie').html($game.attr('sortie'));
-        $('#gameInfo #containerInfo .infos .classification').html($game.attr('classification'));
-        $('#gameInfo #containerInfo .descriptif p').html($game.attr('descriptif'));
-
-        if(callback !== undefined) {
-            callback(true);
-        }
-    });*/
 }
 
 function sortByTitle(a, b) {

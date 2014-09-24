@@ -19,12 +19,13 @@ jQuery(function($){
     }
 
     $(document).on('click', '#game_add_btn', function() {
+        $('#game_title').removeClass('invalid');
         $("#select_game").fadeTo(0, 1);
         $("#enregsitrer_jeu").show();
         $("#modifier_jeu").hide();
 
         if($.trim($('#game_title').val()) === '') {
-            popup('Vous devez rentrer le nom d\'un jeu');
+            $('#game_title').addClass('invalid');
         } else {
             dns.resolve('http://www.babeuloula.fr', function(err) {
                 if (err) {
@@ -86,6 +87,7 @@ jQuery(function($){
                                 }
 
                                 $('#select_game').change(function() {
+                                    $('#titre_jeu, #emplacement_jeu').removeClass('invalid');
                                     loading('scrap', 'Chargement des informations du jeu en cours');
 
                                     getGameInfos($(this).val(), function(infos) {
@@ -120,6 +122,7 @@ jQuery(function($){
 
     $(document).on('click', '#annuler_jeu', function() {
         $("#popup_game").fadeOut(400, function() {
+            $('#titre_jeu, #emplacement_jeu').removeClass('invalid');
             $("#id_jeu").val('');
             $("#titre_jeu").val('');
             $("#type_jeu").val('');
@@ -139,18 +142,18 @@ jQuery(function($){
     });
 
     $(document).on('click', '#enregsitrer_jeu, #modifier_jeu', function() {
+        $('#titre_jeu, #emplacement_jeu').removeClass('invalid');
         var id = $(this).attr('id').replace('#', '');
         var valid = true;
-        var message = '';
 
         if($.trim($("#titre_jeu").val()) === '') {
             valid = false;
-            message+= "Vous devez rentrer le nom du jeu<br>";
+            $('#titre_jeu').addClass('invalid');
         }
 
         if($.trim($("#emplacement_jeu").val()) === '') {
             valid = false;
-            message+= "Vous devez rentrer l'emplacement du jeu<br>";
+            $('#emplacement_jeu').addClass('invalid');
         }
 
         if(valid) {
@@ -317,8 +320,6 @@ jQuery(function($){
 
                 });
             }
-        } else {
-            popup(message);
         }
     });
 
