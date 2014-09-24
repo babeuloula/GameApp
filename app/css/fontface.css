@@ -1,11 +1,10 @@
 @font-face {
-    font-family: 'Neuropol';
-    src: url('fontface/neuropol-webfont.eot');
-    src: url('fontface/neuropol-webfont.eot?#iefix') format('embedded-opentype'),
-         url('fontface/neuropol-webfont.woff') format('woff'),
-         url('fontface/neuropol-webfont.ttf') format('truetype'),
-         url('fontface/neuropol-webfont.svg#neuropolregular') format('svg');
+    font-family: 'Geo Sans Light';
+    src: url('fontface/geosanslight-webfont.eot');
+    src: url('fontface/geosanslight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fontface/geosanslight-webfont.woff') format('woff'),
+         url('fontface/geosanslight-webfont.ttf') format('truetype'),
+         url('fontface/geosanslight-webfont.svg#geosanslightregular') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }

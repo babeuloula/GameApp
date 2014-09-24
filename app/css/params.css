@@ -1,176 +1,387 @@
 * {
-    outline: none;
+    outline               : none;
+    -webkit-touch-callout : none;
+    -webkit-user-select   : none;
+    user-select           : none;
+    cursor                : default;
 }
 
-html {
-    width: 100%;
-    font-size   : 62.5%;
-    background: #FFF;
-    margin: 0 auto;
-}
-
-body {
-    font-family: Arial;
-    color: #000;
-}
-
-#container, #errors {
-    margin: 25px;
-}
-
-.cache {
-    display: none;
-}
-
-.clear {
-    clear: both;
-    float: none;
-}
-
-h1 {
-    font-size: 40px;
-    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    margin-bottom: 30px;
-    text-align: center;
-    margin-top: 15px;
-    color: #FFF;
-    font-family: "Neuropol";
-}
-
-fieldset {
-    border: solid 1px #1f5e8a;
-    -webkit-border-radius: 10px 10px 10px 10px;
-    -moz-border-radius   : 10px 10px 10px 10px;
-    -ms-border-radius    : 10px 10px 10px 10px;
-    -o-border-radius     : 10px 10px 10px 10px;
-    border-radius        : 10px 10px 10px 10px;
-    padding: 10px;
-    margin-top: 15px;
-}
-
-fieldset legend {
-    font-size: 40px;
-    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    margin-bottom: 15px;
-    margin-top: 15px;
-    margin-left: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: #FFF;
-    font-family: "Neuropol";
-}
-
-.del, .edit, .delImage {
-    cursor: pointer;
-}
-
-.ui-dialog-titlebar-close {
-    visibility : hidden;
-}
-
-.del {
-    margin-left: 5px;
-}
-
-.game {
-    height: 25px;
-    line-height: 25px;
-    border: solid 1px #1f5e8a;
-    -webkit-border-radius: 10px 10px 10px 10px;
-    -moz-border-radius   : 10px 10px 10px 10px;
-    -ms-border-radius    : 10px 10px 10px 10px;
-    -o-border-radius     : 10px 10px 10px 10px;
-    border-radius        : 10px 10px 10px 10px;
-    padding: 10px;
-    margin-top: 5px;
-    cursor: move;
-    background: #FFF;
-}
-
-.game .actions {
-    float: right;
-}
-
-table {
-    margin-top: 15px;
-}
-
-table th {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    border: solid 1px #1f5e8a;
-}
-
-td {
-    border: solid 1px #1f5e8a;
-    height: 30px;
-}
-
-table td:nth-child(1) {
-    padding-left: 10px;
-}
-
-table td:nth-child(2), table td:nth-child(3) {
-    text-align: center;
-}
-
-input[type='text'], input[type='file'], input[type='password'], select {
-    background-color : #F2F2F2;
-    border           : 1px solid #999;
-    min-height       : 20px;
-    padding-left     : 5px;
-}
-
-input[type='text'].invalid, input[type='file'].invalid, input[type='password'].invalid {
-    border : 1px solid #F00;
-}
-
-.mt10 {
-    margin-top : 10px;
-}
-
-.mt5 {
-    margin-top : 5px;
-}
-
-label span, label input[type='text'], label input[type='file'], label input[type='password'] {
-    color : #000;
-}
-
-label {
-    color       : #0361AE;
-    line-height : 20px;
-    display     : block;
-}
-
-.w250 {
-    width : 250px;
-}
-
-.w520 {
-    width: 520px;
+html, body {
+    margin      : 0;
+    padding     : 0;
+    background  : #FFF;
+    font-family : 'Geo Sans Light';
+    background  : #FFF url("../icons/gameapp_256_fade.png") center center no-repeat fixed;
 }
 
 .left {
-    float: left;
+    float : left;
 }
 
 .right {
-    float: right;
+    float : right;
 }
 
-textarea {
-    width: 540px;
-    max-width: 540px;
-    min-width: 540px;
-    height: 90px;
-    min-height: 90px;
-    background-color : #F2F2F2;
-    border           : 1px solid #999;
-    padding: 5px;
+.clear {
+    clear : both;
+    float : none;
+}
+
+.block {
+    display : block;
+}
+
+.mr25 {
+    margin-right : 25px;
+}
+
+.bouton {
+    position              : relative;
+    font-family           : 'Open Sans', sans-serif;
+    font-size             : 12px;
+    text-decoration       : none;
+    color                 : #FFF;
+
+    background-image      : -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3BB3E0), color-stop(100%, #209AC8));
+    background-image      : -webkit-linear-gradient(top, #3BB3E0, #209AC8);
+    background-image      : linear-gradient(top, #3BB3E0, #209AC8);
+    -webkit-border-radius : 5px;
+    border-radius         : 5px;
+    -webkit-box-shadow    : inset 0px 1px 0px #209AC8, 0px 5px 0px 0px #156786, 0px 10px 5px #999;
+    box-shadow            : inset 0px 1px 0px #209AC8, 0px 5px 0px 0px #156786, 0px 10px 5px #999;
+    padding               : 10px 20px;
+    padding-right         : 40px;
+
+    border                : none;
+
+    cursor                : pointer;
+}
+
+.bouton:active {
+    top                : 4px;
+    background-image   : -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #3BB3E0), color-stop(100%, #209AC8));
+    background-image   : -webkit-linear-gradient(bottom, #3BB3E0, #209AC8);
+    background-image   : linear-gradient(bottom, #3BB3E0, #209AC8);
+    -webkit-box-shadow : inset 0px 1px 0px #209AC8, 0px 1px 0px 0px #156786, 0px 3px 5px #999;
+    box-shadow         : inset 0px 1px 0px #209AC8, 0px 1px 0px 0px #156786, 0px 3px 5px #999;
+}
+
+.bouton:before {
+    content               : "";
+    width                 : 20px;
+    height                : 20px;
+    display               : block;
+    position              : absolute;
+    top                   : 50%;
+    margin-top            : -10px;
+    right                 : 10px;
+    -webkit-border-radius : 50%;
+    border-radius         : 50%;
+    -webkit-box-shadow    : inset 0px 1px 0px #0B3544, 0px 1px 0px #67C4E7;
+    box-shadow            : inset 0px 1px 0px #0B3544, 0px 1px 0px #67C4E7;
+}
+
+.bouton:active:before {
+    margin-top         : -14px;
+    -webkit-box-shadow : inset 0px 1px 0px #67C4E7, 0px 4px 0px 0px #0E465A, 0px 4px 5px #125670;
+    box-shadow         : inset 0px 1px 0px #67C4E7, 0px 4px 0px 0px #0E465A, 0px 4px 5px #125670;
+}
+
+.invalid {
+    border: solid 1px #F00 !important;
+}
+
+#addGame {
+    border        : solid 3px #CCC;
+    width         : 25px;
+    height        : 25px;
+    cursor        : pointer;
+    border-radius : 5px 5px 5px 5px;
+    color         : #FFF;
+}
+
+fieldset {
+    border        : solid 3px #209AC8;
+    margin        : 10px;
+    border-radius : 5px 5px 5px 5px;
+}
+
+legend {
+    padding-left  : 10px;
+    padding-right : 10px;
+    color         : #209AC8 !important;
+    font-weight   : bold;
+}
+
+label {
+    color       : #209AC8 !important;
+    font-weight : bold;
+}
+
+input[type=text] {
+    padding       : 2px;
+    border-radius : 2px 2px 2px 2px;
+    border        : solid 1px #209AC8;
+    cursor        : text;
+}
+
+.overlay {
+    top        : 0;
+    left       : 0;
+    right      : 0;
+    bottom     : 0;
+    position   : absolute;
+    background : #FFF url("../icons/gameapp_256_fade.png") center center no-repeat fixed;
+    z-index    : 100;
+    display    : none;
+    height     : 100%;
+}
+
+#game_title {
+    width : 480px;
+}
+
+#game_platforme {
+    width         : 200px;
+    border        : solid 1px #209AC8;
+    border-radius : 2px 2px 2px 2px;
+}
+
+#game_add_btn:before {
+    background : url('images/add.png') center center no-repeat #209AC8;
+}
+
+#game_list {
+    padding-top: 20px;
+}
+
+#game_list .game {
+    width: 156px;
+    height: 216px;
+    margin-left: 30px;
+    position: relative;
+    display: inline-table;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+#game_list .game .pochette {
+    width: 150px;
+    height: auto;
+    max-height: 210px;
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius        : 5px 5px 5px 5px;
+    border        : solid 3px #209AC8;
+}
+
+#game_list .game .bottom {
+    background : rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 150px;
+    left: 3px; right: 3px; bottom: -150px;
+    -webkit-border-radius: 0px 0px 5px 5px;
+    border-radius        : 0px 0px 5px 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    -webkit-transition-duration: 250ms;
+    transition-duration: 250ms;
+}
+
+#game_list .game:hover .bottom {
+    bottom: 3px;
+}
+
+#game_list .title {
+    width        : 150px;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #FFF;
+    font-weight: bold;
+}
+
+#game_list .actions {
+    width      : 150px;
+    text-align : center;
+}
+
+#game_list .actions .edit, #game_list .actions .del {
+    cursor : pointer;
+}
+
+#game_list .actions .edit {
+    margin-right : 15px;
+}
+
+#loadingContainer {
+    position   : absolute;
+    top        : 200px;
+    left       : 200px;
+    right      : 200px;
+    text-align : center;
+    color      : #000;
+}
+
+#loadingMessage {
+    margin-bottom : 5px;
+}
+
+#popup_game #select_game {
+    width         : 990px;
+    margin-bottom : 10px;
+    margin-top    : 10px;
+    margin-left   : 10px;
+    border        : solid 1px #209AC8;
+    border-radius : 2px 2px 2px 2px;
+}
+
+#popup_game legend {
+    color : #000;
+}
+
+#popup_game img {
+    border        : solid 3px #209AC8;
+    border-radius : 5px 5px 5px 5px;
+    display       : block;
+    /*cursor: pointer;*/
+}
+
+#popup_game label {
+    display : block;
+    color   : #000;
+}
+
+#popup_game input[type=text] {
+    width         : 580px;
+    display       : block;
+    margin-bottom : 5px;
+    background    : rgba(255, 255, 255, 0.5);
+    border-radius : 2px 2px 2px 2px;
+}
+
+#popup_game #pochette_jeu {
+    max-width  : 350px;
+    max-height : 300px;
+    height     : auto;
+}
+
+#popup_game #descriptif_jeu {
+    width         : 950px;
+    height        : 120px;
+    min-width     : 950px;
+    max-width     : 950px;
+    min-height    : 120px;
+    max-height    : 120px;
+    font-family   : 'Geo Sans Light';
+    font-size     : 16px;
+    display       : block;
+    margin-bottom : 5px;
+    cursor        : text;
+    background    : rgba(255, 255, 255, 0.5);
+    border        : solid 1px #209AC8;
+    border-radius : 2px 2px 2px 2px;
+}
+
+#popup_game #background_jeu, #popup_game #screenshot_jeu {
+    min-width : 125px;
+}
+
+#popup_game #annuler_jeu {
+    position : absolute;
+    right    : 170px;
+    top      : 655px;
+    cursor   : pointer;
+}
+
+#popup_game #annuler_jeu:before {
+    background : url('images/cross.png') center center no-repeat #209AC8;
+}
+
+#popup_game #enregsitrer_jeu, #popup_game #modifier_jeu {
+    position : absolute;
+    right    : 20px;
+    top      : 655px;
+    cursor   : pointer;
+}
+
+#popup_game #enregsitrer_jeu:before {
+    background : url('images/valid.png') center center no-repeat #209AC8;
+}
+
+#popup_game #modifier_jeu:before {
+    background : url('images/pen.png') center center no-repeat #209AC8;
+}
+
+#popup_game #annuler_jeu:active, #popup_game #enregsitrer_jeu:active, #popup_game #modifier_jeu:active {
+    top : 659px !important;
+}
+
+#popup #popupContainer, #delGame #delGameContainer {
+    position   : absolute;
+    top        : 200px;
+    left       : 300px;
+    right      : 300px;
+    text-align : center;
+    color      : #000;
+}
+
+#delGame #delGameContainer #non {
+    float       : left;
+    margin-left : 100px;
+    margin-top  : 10px;
+}
+
+#delGame #delGameContainer #non:before {
+    background : url('images/cross.png') center center no-repeat #209AC8;
+}
+
+#delGame #delGameContainer #oui {
+    float        : right;
+    margin-right : 100px;
+    margin-top   : 10px;
+}
+
+#popup #popupContainer #ok {
+    text-align : center;
+    margin-top : 10px;
+}
+
+#delGame #delGameContainer #oui:before, #popup #popupContainer #ok:before {
+    background : url('images/valid.png') center center no-repeat #209AC8;
+}
+
+svg {
+    display        : inline-block;
+    vertical-align : middle;
+}
+
+path {
+    stroke            : #209AC8;
+    stroke-width      : 6;
+    stroke-linejoin   : round;
+    stroke-linecap    : round;
+    stroke-dasharray  : 193.904983521;
+    fill              : none;
+    -webkit-animation : load 4s linear infinite, color 3s linear infinite;
+    -moz-animation    : load 4s linear infinite, color 3s linear infinite;
+    animation         : load 4s linear infinite, color 3s linear infinite;
+}
+
+@-webkit-keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}
+
+@-moz-keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}
+
+@keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
 }

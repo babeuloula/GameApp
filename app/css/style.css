@@ -1,367 +1,249 @@
 * {
-    outline: none;
-    cursor: none !important;
-    /*cursor: default !important;*/
+    outline               : none;
+    -webkit-touch-callout : none;
+    -webkit-user-select   : none;
+    user-select           : none;
+    cursor                : default;
 }
 
 html {
-    width: 1920px;
-    height: 100%;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    overflow: hidden;
-    background: radial-gradient(#222, black);
-    background-attachment: fixed;
-    -webkit-transition-duration: 250ms;
-    -moz-transition-duration: 250ms;
-    transition-duration: 250ms;
+    height : 100%;
 }
 
 body {
-    font-family: "Neuropol";
-    color: #FFF;
-    background: rgba(0, 0, 0, 0.5);
-    min-height: 1080px;
+    margin      : 0;
+    padding     : 0;
+    height      : 100%;
+    background  : #000;
+    position    : relative;
+    overflow    : hidden;
+    font-family : 'Geo Sans Light';
 }
 
-h1 {
-    font-size: 40px;
-    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    margin-bottom: 30px;
-}
-
-h1.title {
-    position: absolute;
-    top: 40px;
-    left: 0px;
-    text-align: center;
-    width: 100%;
-    font-size: 75px;
+p {
+    margin    : 0;
+    padding   : 0;
+    font-size : 18px;
 }
 
 .clear {
-    clear: both;
-    float: none;
+    clear : both;
+    float : none;
 }
 
-.cache {
-    display: none;
+#overlay, .overlay {
+    top        : 0;
+    left       : 0;
+    right      : 0;
+    bottom     : 0;
+    position   : absolute;
+    background : #000;
+    z-index    : 100;
 }
 
-.noMargin {
-    margin: 0px !important;
+#background {
+    background-attachment : fixed;
+    background-position   : center center;
+    position              : absolute;
+    top                   : 0;
+    left                  : 0;
+    right                 : 0;
+    bottom                : 0;
+    z-index               : -1;
 }
 
-
-
-
-
-
-
-
-
-#loadingApp {
-    background: radial-gradient(#222, black);
-    width: 1920px;
-    height: 1080px;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    line-height: 100vh;
-    text-align: center;
-    font-size: 40px;
-    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
+#maximize {
+    width      : 40px;
+    height     : 40px;
+    position   : absolute;
+    background : url('images/maximize.png') center center no-repeat;
+    cursor     : pointer;
+    z-index    : 150;
+    display    : none;
 }
 
-
-
-
-
-
-
-#container {
-    width: 1560px;
-    height: 100%;
-    padding-top: 140px;
-    margin: 0 auto;
+#minimize {
+    width      : 40px;
+    height     : 40px;
+    position   : absolute;
+    background : url('images/minimize.png') center center no-repeat;
+    cursor     : pointer;
+    z-index    : 150;
 }
 
+#horloge {
+    height      : 45px;
+    line-height : 45px;
+    position    : absolute;
+    z-index     : 5;
+    text-align  : center;
+    color       : #FFF;
+    font-size   : 35px;
+}
 
+#params {
+    width                       : 40px;
+    height                      : 40px;
+    position                    : absolute;
+    background                  : url('images/params.png') center center no-repeat;
+    cursor                      : pointer;
+    z-index                     : 150;
+    -webkit-transition-duration : 1s;
+}
 
+#params:hover {
+    -webkit-transform : rotate(360deg);
+}
 
+#gameInfo {
+    height        : 55%;
+    background    : rgba(0, 0, 0, 0.75);
+    position      : relative;
+    top           : 10%;
+    left          : 0;
+    right         : 0;
+    border-top    : solid 3px rgba(255, 255, 255, 0.25);
+    border-bottom : solid 3px rgba(255, 255, 255, 0.25);
+}
 
-.game {
-    width: 350px;
-    height: 200px;
-    margin-right: 50px;
-    margin-bottom: 50px;
-    float: left;
-    border: solid 1px #333;
-    -webkit-border-radius: 10px 10px 10px 10px;
-    -moz-border-radius   : 10px 10px 10px 10px;
-    -ms-border-radius    : 10px 10px 10px 10px;
-    -o-border-radius     : 10px 10px 10px 10px;
-    border-radius        : 10px 10px 10px 10px;
-    position: relative;
+#gameInfo #containerInfo {
+    opacity  : 0;
+    position : relative;
+}
+
+#gameInfo #containerInfo .infos {
+    float         : left;
+    margin-bottom : 15px;
+    max-width     : 45%;
+}
+
+#gameInfo #containerInfo .infos h1 {
+    margin-top  : 0;
+    font-weight : bold !important;
+    color       : #FFF;
+}
+
+#gameInfo #containerInfo .infos h2 {
+    margin      : 0;
+    color       : #9E8748;
+    font-weight : normal;
+}
+
+.white, #gameInfo #containerInfo .descriptif {
+    color : #FFF;
+}
+
+#gameInfo #containerInfo .descriptif {
+    text-align : justify;
+    position   : absolute;
+    bottom     : 0;
+    overflow   : hidden;
+    float      : left;
+    max-width: 45%;
+}
+
+#gameInfo .image {
+    float         : right;
+    border-radius : 5px 5px 5px 5px;
+    border        : solid 3px rgba(255, 255, 255, 0.25);
+    max-width     : 45%;
+}
+
+#gameList {
+    height     : 30%;
+    background : rgba(0, 0, 0, 0.4);
+    position   : absolute;
+    bottom     : 0;
+    left       : 0;
+    right      : 0;
+    border-top : solid 3px rgba(255, 255, 255, 0.25);
+    z-index: 15;
+}
+
+#gameList #containerList {
+    position : relative;
+    height   : 100%;
+    opacity  : 0;
+}
+
+#gameList #containerList #List {
+    -webkit-perspective: 800px;
+    -ms-perspective: 800px;
+    perspective: 800px;
+    -webkit-perspective-origin: 50% 50%;
+    -ms-perspective-origin: 50% 50%;
+    perspective-origin: 50% 50%;
     overflow: hidden;
+    overflow-y: show;
+    padding-top: 20px;
+    padding-bottom: 25px;
+}
+
+#gameList #containerList #List ul {
+    -webkit-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#gameList #containerList #List ul li {
+    position: relative;
+    margin: 0 -20px;
+    -webkit-transform: rotateY(60deg) scale(0.9);
+    -ms-transform: rotateY(60deg) scale(0.9);
+    transform: rotateY(60deg) scale(0.9);
+    -webkit-transition: -webkit-transform 300ms ease-out;
+    transition: transform 300ms ease-out;
+    float: left;
+    height: 100%;
+    margin: 0 1px 0 0;
+    padding: 0;
+    background: #333;
+    color: #ddd;
+    text-align: center;
+    border-radius : 5px 5px 5px 5px;
+    border        : solid 3px rgba(255, 255, 255, 0.25);
+}
+
+#gameList #containerList #List ul li img {
     cursor: pointer;
 }
 
-.game .image {
+#gameList #containerList #List ul li.active {
+    z-index: 10;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+#gameList #containerList #List ul li.active ~ li {
+    -webkit-transform: rotateY(-60deg) scale(0.9);
+    -ms-transform: rotateY(-60deg) scale(0.9);
+    transform: rotateY(-60deg) scale(0.9);
+}
+
+#loading {
+    display: none;
+    text-align: center;
     position: absolute;
     top: 0px;
     left: 0px;
-    -webkit-border-radius: 10px 10px 10px 10px;
-    -moz-border-radius   : 10px 10px 10px 10px;
-    -ms-border-radius    : 10px 10px 10px 10px;
-    -o-border-radius     : 10px 10px 10px 10px;
-    border-radius        : 10px 10px 10px 10px;
-}
-
-.game .titre {
-    position: absolute;
-    bottom: -66px;
     right: 0px;
-    -webkit-border-radius: 0px 0px 10px 10px;
-    -moz-border-radius   : 0px 0px 10px 10px;
-    -ms-border-radius    : 0px 0px 10px 10px;
-    -o-border-radius     : 0px 0px 10px 10px;
-    border-radius        : 0px 0px 10px 10px;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 10;
-    height: 60px;
-    width: 300px;
-    text-align: center;
-    font-size: 24px;
-    line-height: 30px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 25px;
-    padding-right: 25px;
-    -webkit-transition-duration: 250ms;
-    -moz-transition-duration: 250ms;
-    transition-duration: 250ms;
-    cursor: pointer;
-}
-
-.game.active {
-    -webkit-box-shadow: 0px 0px 25px 0px rgba(0, 150, 255, 1);
-    -moz-box-shadow:    0px 0px 25px 0px rgba(0, 150, 255, 1);
-    box-shadow:         0px 0px 25px 0px rgba(0, 150, 255, 1);
-    border: solid 1px #1f5e8a;
-}
-
-.game.active .titre {
     bottom: 0px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#containerMenu {
-    position: absolute;
-    top: 0px;
-    left: 0px;
     background: rgba(0, 0, 0, 0.75);
-    z-index: 20;
-    width: 1920px;
-    height: 1080px;
-}
-
-#menu {
-    background: radial-gradient(#222, black);
-    position: absolute;
-    top: 415px;
-    left: 585px;
-    width: 750px;
-    height: 250px;
-    -webkit-border-radius: 10px 10px 10px 10px;
-    -moz-border-radius   : 10px 10px 10px 10px;
-    -ms-border-radius    : 10px 10px 10px 10px;
-    -o-border-radius     : 10px 10px 10px 10px;
-    border-radius        : 10px 10px 10px 10px;
-    -webkit-box-shadow: 0px 0px 25px 0px rgba(0, 150, 255, 1);
-    -moz-box-shadow:    0px 0px 25px 0px rgba(0, 150, 255, 1);
-    box-shadow:         0px 0px 25px 0px rgba(0, 150, 255, 1);
-}
-
-#menu #params, #menu #quitter {
-    float: left;
-    width: 375px;
-    height: 225px;
-    text-align: center;
-    cursor: pointer;
-}
-
-#menu .titre {
-    width: 375px;
-    line-height: 50px;
-    font-size: 50px;
-    margin-top: -15px;
-}
-
-#menu #params.active .titre, #menu #quitter.active .titre {
-    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-}
-
-
-
-
-
-
-
-
-
-#containerGameInfos {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background: rgba(0, 0, 0, 0.75);
-    z-index: 10;
-    width: 1920px;
-    height: 1080px;
-}
-
-#gameInfos {
-    background: radial-gradient(#222, black);
-    position: absolute;
-    top: 165px;
-    left: 460px;
-    width: 900px;
-    height: 650px;
-    padding: 50px;
-    -webkit-border-radius: 10px 10px 10px 10px;
-    -moz-border-radius   : 10px 10px 10px 10px;
-    -ms-border-radius    : 10px 10px 10px 10px;
-    -o-border-radius     : 10px 10px 10px 10px;
-    border-radius        : 10px 10px 10px 10px;
-    -webkit-box-shadow: 0px 0px 25px 0px rgba(0, 150, 255, 1);
-    -moz-box-shadow:    0px 0px 25px 0px rgba(0, 150, 255, 1);
-    box-shadow:         0px 0px 25px 0px rgba(0, 150, 255, 1);
-}
-
-#gameInfos .pochette {
-    float: left;
-    width: 300px;;
-}
-
-#gameInfos .pochette .front {
-    width: 300px;
-    min-width: 300px;
-    -webkit-box-shadow: 0px 0px 25px 0px rgba(0, 150, 255, 1);
-    -moz-box-shadow:    0px 0px 25px 0px rgba(0, 150, 255, 1);
-    box-shadow:         0px 0px 25px 0px rgba(0, 150, 255, 1);
-    -webkit-border-radius: 10px 10px 10px 10px;
-    -moz-border-radius   : 10px 10px 10px 10px;
-    -ms-border-radius    : 10px 10px 10px 10px;
-    -o-border-radius     : 10px 10px 10px 10px;
-    border-radius        : 10px 10px 10px 10px;
-}
-
-#gameInfos .infos {
-    float: right;
-    width: 550px;
-}
-
-#gameInfos .infos .titre {
-    font-size: 30px;
-    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    margin-bottom: 30px;
-}
-
-#gameInfos .infos .sortie, #gameInfos .infos .note {
-    text-align: right;
-    font-size: 20px;
-}
-
-#gameInfos .infos .editeur {
-    margin-top: 30px;
-}
-
-#gameInfos label {
-    font-size: 20px;
-    text-transform: uppercase;
-    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    margin-right: 25px;
-}
-
-#gameInfos .infos .description {
-    margin-top: 30px;
-    text-align: justify;
-    margin-bottom: 30px;
-}
-
-#gameInfos .infos .carrousel {
-    width: 550px;
-    height: 150px;
-}
-
-#gameInfos .infos .carrousel img {
-    -webkit-box-shadow: 0px 0px 25px 0px rgba(0, 150, 255, 1);
-    -moz-box-shadow:    0px 0px 25px 0px rgba(0, 150, 255, 1);
-    box-shadow:         0px 0px 25px 0px rgba(0, 150, 255, 1);
-    -webkit-border-radius: 10px 10px 10px 10px;
-    -moz-border-radius   : 10px 10px 10px 10px;
-    -ms-border-radius    : 10px 10px 10px 10px;
-    -o-border-radius     : 10px 10px 10px 10px;
-    border-radius        : 10px 10px 10px 10px;
-    margin-top: 25px;
-    margin-left: 20px;
-}
-
-#gameInfos #lancer {
-    text-align: center;
-    float: left;
-    margin-top: 30px;
-}
-
-
-
-
-
-
-
-#containerLoading {
-    width: 1920px;
-    height: 1080px;
-    text-align: center;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background: rgba(0, 0, 0, 0.75);
-    z-index: 30;
+    z-index: 999;
     line-height: 100vh;
     font-size: 40px;
-    -moz-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    -webkit-text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
-    text-shadow: 0px 0px 25px rgba(0, 150, 255, 1);
+}
+
+#loading #messageLoading {
+    position: absolute;
+    top: 100px;
+    text-align: center;
+    width: 100%;
 }
 
 svg {
@@ -370,7 +252,7 @@ svg {
 }
 
 path {
-    stroke: rgba(0, 150, 255, 0.75);
+    stroke: #209AC8;
     stroke-width: 6;
     stroke-linejoin: round;
     stroke-linecap: round;
@@ -391,4 +273,34 @@ path {
 
 @keyframes load {
     from { stroke-dashoffset: 775.6199340820312; }
+}
+
+path {
+    stroke            : #209AC8;
+    stroke-width      : 6;
+    stroke-linejoin   : round;
+    stroke-linecap    : round;
+    stroke-dasharray  : 193.904983521;
+    fill              : none;
+    -webkit-animation : load 4s linear infinite, color 3s linear infinite;
+    -moz-animation    : load 4s linear infinite, color 3s linear infinite;
+    animation         : load 4s linear infinite, color 3s linear infinite;
+}
+
+@-webkit-keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}
+
+@-moz-keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
+}
+
+@keyframes load {
+    from {
+        stroke-dashoffset : 775.6199340820312;
+    }
 }

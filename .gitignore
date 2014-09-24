@@ -1,0 +1,10 @@
+.idea/
+
+builds/
+cache/
+games/
+node_modules/
+
+gameapp.ico
+gameapp.icns
+npm-debug.log
