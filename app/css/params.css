@@ -87,6 +87,10 @@ html, body {
     box-shadow         : inset 0px 1px 0px #67C4E7, 0px 4px 0px 0px #0E465A, 0px 4px 5px #125670;
 }
 
+.invalid {
+    border: solid 1px #F00 !important;
+}
+
 #addGame {
     border        : solid 3px #CCC;
     width         : 25px;

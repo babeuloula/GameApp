@@ -10,11 +10,11 @@ jQuery(function($){
     });
 
     $(document).keyup(function(e) {
-        actions_keyboard(e.keyCode);
+        actions_keyboard_keyup(e.keyCode);
     });
 
     $(document).keydown(function(e) {
-        //console.log(e.keyCode);
+        actions_keyboard_keydown(e.keyCode);
     });
 
     $(document).on('click', '#params', function() {

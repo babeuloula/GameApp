@@ -1,3 +1,10 @@
+GameApp 0.5
+===========
+* Changement du système de coverflow pour un plus rapide et plus maniable
+* Réduction du temps de chargement des informations du jeu lors de changement
+* Correction de divers petits bugs
+* Ajout d'un système de notification en cas de mise à jour
+
 GameApp 0.4
 ===========
 * Réécriture totale de l'application

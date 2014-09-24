@@ -19,12 +19,13 @@ jQuery(function($){
     }
 
     $(document).on('click', '#game_add_btn', function() {
+        $('#game_title').removeClass('invalid');
         $("#select_game").fadeTo(0, 1);
         $("#enregsitrer_jeu").show();
         $("#modifier_jeu").hide();
 
         if($.trim($('#game_title').val()) === '') {
-            popup('Vous devez rentrer le nom d\'un jeu');
+            $('#game_title').addClass('invalid');
         } else {
             dns.resolve('http://www.babeuloula.fr', function(err) {
                 if (err) {
@@ -86,6 +87,7 @@ jQuery(function($){
                                 }
 
                                 $('#select_game').change(function() {
+                                    $('#titre_jeu, #emplacement_jeu').removeClass('invalid');
                                     loading('scrap', 'Chargement des informations du jeu en cours');
 
                                     getGameInfos($(this).val(), function(infos) {
@@ -120,6 +122,7 @@ jQuery(function($){
 
     $(document).on('click', '#annuler_jeu', function() {
         $("#popup_game").fadeOut(400, function() {
+            $('#titre_jeu, #emplacement_jeu').removeClass('invalid');
             $("#id_jeu").val('');
             $("#titre_jeu").val('');
             $("#type_jeu").val('');
@@ -139,18 +142,18 @@ jQuery(function($){
     });
 
     $(document).on('click', '#enregsitrer_jeu, #modifier_jeu', function() {
+        $('#titre_jeu, #emplacement_jeu').removeClass('invalid');
         var id = $(this).attr('id').replace('#', '');
         var valid = true;
-        var message = '';
 
         if($.trim($("#titre_jeu").val()) === '') {
             valid = false;
-            message+= "Vous devez rentrer le nom du jeu<br>";
+            $('#titre_jeu').addClass('invalid');
         }
 
         if($.trim($("#emplacement_jeu").val()) === '') {
             valid = false;
-            message+= "Vous devez rentrer l'emplacement du jeu<br>";
+            $('#emplacement_jeu').addClass('invalid');
         }
 
         if(valid) {
@@ -158,45 +161,6 @@ jQuery(function($){
                 $("#popup_game").fadeOut(400, function() {
                     loading('download', 'Enregistrement du jeu en cours');
                     var json = file.readFileSync('./games/gameapp.json');
-
-                    var new_game;
-
-                    if(json === '[]') {
-                        new_game = '{' +
-                                        '"id": '+$("#id_jeu").val()+','+
-                                        '"image": "'+'../games/images/'+$("#id_jeu").val()+'/pochette/'+$("#pochette_jeu").attr('src').split('/').pop()+'",'+
-                                        '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
-                                        '"background": "'+'../games/backgrounds/'+$("#id_jeu").val()+'/'+$("#background_jeu").attr('src').split('/').pop()+'",'+
-                                        '"screenshot": "'+'../games/images/'+$("#id_jeu").val()+'/'+$("#screenshot_jeu").attr('src').split('/').pop()+'",'+
-                                        '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
-                                        '"type": "'+addslashes($("#type_jeu").val())+'",'+
-                                        '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
-                                        '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
-                                        '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
-                                        '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
-                                        '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
-                                    '}';
-                    } else {
-                        new_game = ',{' +
-                                        '"id": '+$("#id_jeu").val()+','+
-                                        '"image": "'+'../games/images/'+$("#id_jeu").val()+'/pochette/'+$("#pochette_jeu").attr('src').split('/').pop()+'",'+
-                                        '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
-                                        '"background": "'+'../games/backgrounds/'+$("#id_jeu").val()+'/'+$("#background_jeu").attr('src').split('/').pop()+'",'+
-                                        '"screenshot": "'+'../games/images/'+$("#id_jeu").val()+'/'+$("#screenshot_jeu").attr('src').split('/').pop()+'",'+
-                                        '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
-                                        '"type": "'+addslashes($("#type_jeu").val())+'",'+
-                                        '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
-                                        '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
-                                        '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
-                                        '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
-                                        '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
-                                    '}';
-                    }
-
-
-                    json = json.replace(']', '') + new_game + ']';
-
-                    fs.writeFileSync('games/gameapp.json', json);
 
                     if(!fs.existsSync('games/backgrounds/'+$("#id_jeu").val()+'/')) {
                         fs.mkdirSync('games/backgrounds/'+$("#id_jeu").val()+'/');
@@ -244,15 +208,55 @@ jQuery(function($){
                     var checkClose = setInterval(function() {
                         if(dlBackground && dlScreenshot && dlPochette) {
                             clearInterval(checkClose);
+                            var new_game;
 
-                            resParams();
-                            loadingEnd('download', function() {
-                                $("#init").fadeIn(400);
+                            getColor('../games/backgrounds/'+$("#id_jeu").val()+'/'+$("#background_jeu").attr('src').split('/').pop(), function(color) {
+                                if(json === '[]') {
+                                    new_game = '{' +
+                                                        '"id": '+$("#id_jeu").val()+','+
+                                                        '"image": "'+'../games/images/'+$("#id_jeu").val()+'/pochette/'+$("#pochette_jeu").attr('src').split('/').pop()+'",'+
+                                                        '"color": "'+color+'",'+
+                                                        '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
+                                                        '"background": "'+'../games/backgrounds/'+$("#id_jeu").val()+'/'+$("#background_jeu").attr('src').split('/').pop()+'",'+
+                                                        '"screenshot": "'+'../games/images/'+$("#id_jeu").val()+'/'+$("#screenshot_jeu").attr('src').split('/').pop()+'",'+
+                                                        '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
+                                                        '"type": "'+addslashes($("#type_jeu").val())+'",'+
+                                                        '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
+                                                        '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
+                                                        '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
+                                                        '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
+                                                        '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
+                                                '}';
+                                } else {
+                                    new_game = ',{' +
+                                                        '"id": '+$("#id_jeu").val()+','+
+                                                        '"image": "'+'../games/images/'+$("#id_jeu").val()+'/pochette/'+$("#pochette_jeu").attr('src').split('/').pop()+'",'+
+                                                        '"color": "'+color+'",'+
+                                                        '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
+                                                        '"background": "'+'../games/backgrounds/'+$("#id_jeu").val()+'/'+$("#background_jeu").attr('src').split('/').pop()+'",'+
+                                                        '"screenshot": "'+'../games/images/'+$("#id_jeu").val()+'/'+$("#screenshot_jeu").attr('src').split('/').pop()+'",'+
+                                                        '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
+                                                        '"type": "'+addslashes($("#type_jeu").val())+'",'+
+                                                        '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
+                                                        '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
+                                                        '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
+                                                        '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
+                                                        '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
+                                                '}';
+                                }
+
+
+                                json = json.replace(']', '') + new_game + ']';
+
+                                fs.writeFileSync('games/gameapp.json', json);
+
+                                resParams();
+                                loadingEnd('download', function() {
+                                    $("#init").fadeIn(400);
+                                });
                             });
                         }
                     }, 100);
-
-
                 });
             } else {
                 $("#popup_game").fadeOut(400, function() {
@@ -264,48 +268,58 @@ jQuery(function($){
 
                     for(var i = 0; i < parseJSON.length; i++) {
                         if(parseJSON[i].id !== parseInt($("#id_jeu").val(), 10)) {
+                            var color = '';
+
+                            if(parseJSON[i].color !== undefined) {
+                                color = parseJSON[i].color;
+                            }
+
                             final+= '{' +
-                                        '"id": '+parseJSON[i].id+','+
-                                        '"image": "'+parseJSON[i].image+'",'+
-                                        '"path": "'+addslashes(parseJSON[i].path)+'",'+
-                                        '"background": "'+parseJSON[i].background+'",'+
-                                        '"screenshot": "'+parseJSON[i].screenshot+'",'+
-                                        '"titre": "'+addslashes(parseJSON[i].titre)+'",'+
-                                        '"type": "'+addslashes(parseJSON[i].type)+'",'+
-                                        '"editeur": "'+addslashes(parseJSON[i].editeur)+'",'+
-                                        '"developpeur": "'+addslashes(parseJSON[i].developpeur)+'",'+
-                                        '"sortie": "'+addslashes(parseJSON[i].sortie)+'",'+
-                                        '"classification": "'+addslashes(parseJSON[i].classification)+'",'+
-                                        '"descriptif": "'+addslashes(parseJSON[i].descriptif)+'"'+
-                                   '},';
+                                            '"id": '+parseJSON[i].id+','+
+                                            '"image": "'+parseJSON[i].image+'",'+
+                                            '"color": "'+color+'",'+
+                                            '"path": "'+addslashes(parseJSON[i].path)+'",'+
+                                            '"background": "'+parseJSON[i].background+'",'+
+                                            '"screenshot": "'+parseJSON[i].screenshot+'",'+
+                                            '"titre": "'+addslashes(parseJSON[i].titre)+'",'+
+                                            '"type": "'+addslashes(parseJSON[i].type)+'",'+
+                                            '"editeur": "'+addslashes(parseJSON[i].editeur)+'",'+
+                                            '"developpeur": "'+addslashes(parseJSON[i].developpeur)+'",'+
+                                            '"sortie": "'+addslashes(parseJSON[i].sortie)+'",'+
+                                            '"classification": "'+addslashes(parseJSON[i].classification)+'",'+
+                                            '"descriptif": "'+addslashes(parseJSON[i].descriptif)+'"'+
+                                    '},';
                         }
                     }
 
-                    final+= '{' +
-                                '"id": '+$("#id_jeu").val()+','+
-                                '"image": "'+$("#pochette_jeu").attr('src')+'",'+
-                                '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
-                                '"background": "'+$("#background_jeu").attr('src')+'",'+
-                                '"screenshot": "'+$("#screenshot_jeu").attr('src')+'",'+
-                                '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
-                                '"type": "'+addslashes($("#type_jeu").val())+'",'+
-                                '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
-                                '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
-                                '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
-                                '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
-                                '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
-                           '}]';
+                    getColor($("#background_jeu").attr('src'), function(color) {
+                        final+= '{' +
+                                        '"id": '+$("#id_jeu").val()+','+
+                                        '"image": "'+$("#pochette_jeu").attr('src')+'",'+
+                                        '"color": "'+color+'",'+
+                                        '"path": "'+addslashes($("#emplacement_jeu").val())+'",'+
+                                        '"background": "'+$("#background_jeu").attr('src')+'",'+
+                                        '"screenshot": "'+$("#screenshot_jeu").attr('src')+'",'+
+                                        '"titre": "'+addslashes($("#titre_jeu").val())+'",'+
+                                        '"type": "'+addslashes($("#type_jeu").val())+'",'+
+                                        '"editeur": "'+addslashes($("#editeur_jeu").val())+'",'+
+                                        '"developpeur": "'+addslashes($("#developpeur_jeu").val())+'",'+
+                                        '"sortie": "'+addslashes($("#sortie_jeu").val())+'",'+
+                                        '"classification": "'+addslashes($("#classification_jeu").val())+'",'+
+                                        '"descriptif": "'+addslashes($("#descriptif_jeu").val())+'"'+
+                                '}]';
 
-                    fs.writeFileSync('games/gameapp.json', final);
+                        fs.writeFileSync('games/gameapp.json', final);
 
-                    resParams();
-                    loadingEnd('download', function() {
-                        $("#init").fadeIn(400);
+                        resParams();
+                        loadingEnd('download', function() {
+                            $("#init").fadeIn(400);
+                        });
                     });
+
+
                 });
             }
-        } else {
-            popup(message);
         }
     });
 
@@ -377,14 +391,16 @@ jQuery(function($){
                             '},';
                     } else {
                         try {
-                            fs.unlinkSync('./games/background/'+parseJSON[i].id+'/'+parseJSON[i].background);
-                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/'+parseJSON[i].screenshot);
-                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/pochette/'+parseJSON[i].image);
+                            fs.unlinkSync('./games/backgrounds/'+parseJSON[i].id+'/'+parseJSON[i].background.split('/').pop());
+                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/'+parseJSON[i].screenshot.split('/').pop());
+                            fs.unlinkSync('./games/images/'+parseJSON[i].id+'/pochette/'+parseJSON[i].image.split('/').pop());
 
-                            fs.rmdirSync('./games/background/'+parseJSON[i].id+'/');
+                            fs.rmdirSync('./games/backgrounds/'+parseJSON[i].id+'/');
                             fs.rmdirSync('./games/images/'+parseJSON[i].id+'/pochette/');
                             fs.rmdirSync('./games/images/'+parseJSON[i].id+'/');
-                        } catch(e) {}
+                        } catch(e) {
+                            console.log(e);
+                        }
                     }
                 }
 
@@ -410,6 +426,8 @@ jQuery(function($){
     });
 
     $(document).on('click', '#popup #ok', function() {
-        loadingEnd('popup');
+        loadingEnd('popup', function() {
+            $("#init").fadeIn(400);
+        });
     });
 });

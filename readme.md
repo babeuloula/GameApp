@@ -91,5 +91,5 @@ Remerciements
 * Jeuxvideo.com pour leur API (<http://www.jeuxvideo.com/>)
 * Bennett Feely pour son loader animé en SVG (<http://codepen.io/bennettfeely/pen/lyJdw>)
 * Lokesh Dhakar pour color-thief (<https://github.com/lokesh/color-thief>)
-* Kevin Subileau pour ses réponses (<https://github.com/ksubileau>)
+* Kevin Subileau pour son aide et ses réponses (<https://github.com/ksubileau>)
 * Et tous ceux que j'aurai oublié
