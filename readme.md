@@ -1,4 +1,4 @@
-GameApp v0.5
+GameApp v0.6
 ============
 
 Lancez vos jeux favoris via votre gamepad grâce à une interface adaptée et simplifiée.
