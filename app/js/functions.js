@@ -297,25 +297,31 @@ function actions_keyboard_keyup(keyCode) {
             var game = $.parseJSON(file.readFileSync('./games/gameapp.json'));
             game.sort(sortByTitle);
 
-            getColor(game[current].background, function(color) {
-                $("#loading").css('color', color).width($(window).width()).height($(window).height());
-                $("path").css('stroke', color);
+            if(game[current].color === undefined) {
+                $('#gameInfo #containerInfo h2').css('color', '#9E8748');
+                $("#loading").css('color', '#9E8748').width($(window).width()).height($(window).height());
+                $("path").css('stroke', '#9E8748');
+            } else {
+                $("#loading").css('color', game[current].color).width($(window).width()).height($(window).height());
+                $("path").css('stroke', game[current].color);
+            }
 
-                loading('launch', "Chargement du jeu en cours", function() {
-                    if(game[current].path.indexOf('://') > 0 && game[current].path !== "") {
-                        $(location).attr('href', game[current].path);
-                    } else {
-                        child = execFile(game[current].path, function(error,stdout,stderr) {
-                            if (error) {
-                                popup(error.stack + '<br><br>Error code: '+ error.code + '<br>Signal received: ' + error.signal);
-                            }
-                        });
 
-                        child.on('exit', function (code) {
-                            loadingEnd('launch');
-                        });
-                    }
-                });
+
+            loading('launch', "Chargement du jeu en cours", function() {
+                if(game[current].path.indexOf('://') > 0 && game[current].path !== "") {
+                    $(location).attr('href', game[current].path);
+                } else {
+                    child = execFile(game[current].path, function(error,stdout,stderr) {
+                        if (error) {
+                            popup(error.stack + '<br><br>Error code: '+ error.code + '<br>Signal received: ' + error.signal);
+                        }
+                    });
+
+                    child.on('exit', function (code) {
+                        loadingEnd('launch');
+                    });
+                }
             });
 
 

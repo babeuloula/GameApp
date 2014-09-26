@@ -1,3 +1,7 @@
+GameApp 0.6
+===========
+* Correction du bug de lancement du jeu
+
 GameApp 0.5
 ===========
 * Changement du système de coverflow pour un plus rapide et plus maniable
