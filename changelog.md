@@ -1,3 +1,7 @@
+GameApp 0.7
+===========
+* Changement des identifiants des machines à cause de la nouvelle version de JVC
+
 GameApp 0.6
 ===========
 * Correction du bug de lancement du jeu
